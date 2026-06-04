@@ -146,8 +146,8 @@ export default function DecisionsPage({ params }: { params: { locale: string } }
       <div className="min-h-screen flex items-center justify-center p-6">
         <div className="glass-card rounded-3xl p-8 text-center max-w-sm">
           <div className="text-4xl mb-3">🕐</div>
-          <h2 className="text-lg font-bold text-white mb-2">No hay ronda activa</h2>
-          <p className="text-white/50 text-sm">Esperá que el juego inicie una nueva ronda.</p>
+          <h2 className="text-lg font-bold text-white mb-2">No hay mes activo</h2>
+          <p className="text-white/50 text-sm">Esperá que el juego inicie el próximo mes.</p>
         </div>
       </div>
     </StudentShell>
@@ -159,8 +159,8 @@ export default function DecisionsPage({ params }: { params: { locale: string } }
         <div className="glass-card rounded-3xl p-8 text-center max-w-sm animate-slide-up">
           <div className="text-5xl mb-4 animate-bounce-subtle">✅</div>
           <h2 className="text-xl font-bold text-white mb-2">¡Decisiones enviadas!</h2>
-          <p className="text-white/50 text-sm mb-1">Los resultados estarán disponibles mañana.</p>
-          <p className="text-white/30 text-xs mb-6">Ronda {round.roundNumber} cerrada.</p>
+          <p className="text-white/50 text-sm mb-1">El informe del mes estará disponible mañana a las 19:00 hs.</p>
+          <p className="text-white/30 text-xs mb-6">Mes {round.roundNumber} cerrado.</p>
           <Button variant="secondary" onClick={() => router.push(`/${locale}/dashboard`)}>
             Volver al inicio
           </Button>
@@ -184,12 +184,48 @@ export default function DecisionsPage({ params }: { params: { locale: string } }
 
         <div className="max-w-2xl mx-auto p-4 flex flex-col gap-4 mt-4">
 
-          {/* Round header */}
+          {/* Month header */}
           <div className="text-center animate-slide-up">
-            <h1 className="text-2xl font-bold gradient-text">Decisiones — Ronda {round.roundNumber}</h1>
+            <h1 className="text-2xl font-bold gradient-text">Decisiones — Mes {round.roundNumber}</h1>
             <p className="text-white/50 text-sm mt-1">
-              {product.emoji} {product.id} · {location.emoji} {location.id} · Cierra: {new Date(round.closeAt instanceof Date ? round.closeAt : (round.closeAt as { seconds: number }).seconds * 1000).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}
+              Cierra: {new Date(round.closeAt instanceof Date ? round.closeAt : (round.closeAt as { seconds: number }).seconds * 1000).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })} hs · Los resultados se publican al día siguiente
             </p>
+          </div>
+
+          {/* Fixed decisions — permanently locked */}
+          <div className="rounded-2xl border border-white/10 bg-white/3 p-4">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-base">🔒</span>
+              <h3 className="text-sm font-bold text-white/80">Decisiones permanentes</h3>
+              <span className="ml-auto text-[10px] text-white/25 bg-white/5 px-2 py-0.5 rounded-full">No modificables</span>
+            </div>
+            <div className="grid grid-cols-3 gap-2 text-center">
+              <div className="bg-white/5 rounded-xl p-3">
+                <div className="text-2xl mb-1">{product.emoji}</div>
+                <div className="text-[10px] text-white/35 mb-0.5">Producto</div>
+                <div className="text-xs font-semibold text-white/60 leading-tight">{product.id.replace(/_/g,' ')}</div>
+              </div>
+              <div className="bg-white/5 rounded-xl p-3">
+                <div className="text-2xl mb-1">{location.emoji}</div>
+                <div className="text-[10px] text-white/35 mb-0.5">Ubicación</div>
+                <div className="text-xs font-semibold text-white/60 leading-tight">{location.id.replace(/_/g,' ')}</div>
+              </div>
+              <div className="bg-white/5 rounded-xl p-3">
+                <div className="text-lg mb-1 font-black" style={{ color: company?.logoColor ?? '#7c3aed' }}>{company?.brandName?.charAt(0) ?? '?'}</div>
+                <div className="text-[10px] text-white/35 mb-0.5">Marca</div>
+                <div className="text-xs font-semibold text-white/60 leading-tight truncate">{company?.brandName ?? '—'}</div>
+              </div>
+            </div>
+            <p className="text-[10px] text-white/20 text-center mt-2.5 leading-relaxed">
+              Cambiar estos aspectos implicaría costos muy elevados: mudanza del local, rebranding, nueva línea de producción.
+            </p>
+          </div>
+
+          {/* Variable decisions divider */}
+          <div className="flex items-center gap-3">
+            <div className="h-px bg-white/10 flex-1" />
+            <span className="text-[11px] text-white/35 font-medium">⚙️ Decisiones variables del mes {round.roundNumber}</span>
+            <div className="h-px bg-white/10 flex-1" />
           </div>
 
           {/* 1. Producción */}
@@ -254,7 +290,7 @@ export default function DecisionsPage({ params }: { params: { locale: string } }
           {/* 3. Local y Operaciones */}
           <SectionCard title="Local y Operaciones" emoji="🏪">
             <div className="text-xs text-white/40 -mt-2">
-              Alquiler fijo: {formatCurrency(rent)} / ronda (no modificable)
+              🔒 Alquiler fijo: {formatCurrency(rent)} / mes (decisión permanente — costo del local)
             </div>
             <Slider label="Inversión en mejoras del local" value={d.localImprovementBudget ?? 0} min={0} max={15000} step={500} onChange={store.setLocalImprovementBudget}
               hint="Acumula beneficios en rondas futuras (reputación, flujo de clientes)" />
@@ -310,7 +346,7 @@ export default function DecisionsPage({ params }: { params: { locale: string } }
           <SectionCard title="Equipo de trabajo" emoji="👥">
             <Stepper label={`Empleados (mín. recomendado: ${product.minEmployees})`}
               value={d.employeeCount ?? 1} min={1} max={10} onChange={store.setEmployeeCount}
-              hint={`Costo base: ${formatCurrency((d.employeeCount ?? 1) * (EMPLOYEE_DAILY_COST[d.employeeType ?? 'balanced']), true)}/ronda`}
+              hint={`Costo base: ${formatCurrency((d.employeeCount ?? 1) * (EMPLOYEE_DAILY_COST[d.employeeType ?? 'balanced']), true)}/mes`}
             />
             <OptionPicker value={d.employeeType ?? 'balanced'} onChange={v => store.setEmployeeType(v as 'cheap' | 'balanced' | 'expert')}
               options={[
@@ -399,7 +435,7 @@ export default function DecisionsPage({ params }: { params: { locale: string } }
               </Button>
             </div>
             <p className="text-xs text-white/30 text-center mt-2">
-              Una vez confirmadas no se pueden modificar hasta la próxima ronda.
+              Una vez confirmadas, no podés modificarlas. El informe del mes estará disponible mañana.
             </p>
           </div>
 

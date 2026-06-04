@@ -19,9 +19,10 @@
     "required": "Requerido",
     "optional": "Opcional",
     "currency": "USD",
-    "round": "Ronda",
+    "round": "Mes",
     "of": "de",
-    "day": "Día"
+    "day": "Día",
+    "month": "Mes"
   },
   "auth": {
     "login": "Iniciar sesión",
@@ -46,13 +47,13 @@
   },
   "onboarding": {
     "step1_title": "¡Bienvenido/a a EduFin!",
-    "step1_desc": "Vas a crear y gestionar tu propia empresa en 10 días de juego real. Cada día tomás decisiones, cada noche se calculan los resultados.",
+    "step1_desc": "Vas a crear y gestionar tu propia empresa durante varias semanas. Cada día real = 1 mes virtual de operaciones. Cada día tomás decisiones de negocio, y esa noche se calculan los resultados del mes.",
     "step2_title": "Tu empresa, tus reglas",
     "step2_desc": "Elegís producto, ubicación, precios, empleados y marketing. Pero cuidado: el presupuesto es limitado. No podés hacer todo a la vez.",
     "step3_title": "Invertí en el mercado financiero",
     "step3_desc": "El dinero que no usás en el negocio puede invertirse. Más riesgo = más retorno posible. La clave es el balance.",
-    "step4_title": "Aprendé con cada ronda",
-    "step4_desc": "Al día siguiente ves exactamente por qué ganaste o perdiste dinero. El ranking se actualiza en tiempo real.",
+    "step4_title": "Informe mensual de tu empresa",
+    "step4_desc": "Al día siguiente ves el informe del mes: cómo impactaron tus decisiones, cuánto vendiste, qué eventos afectaron el mercado y cómo quedaste en el ranking.",
     "start": "¡Crear mi empresa!"
   },
   "company": {
@@ -77,12 +78,12 @@
     "title": "Mi empresa",
     "capital": "Capital disponible",
     "net_worth": "Valor de la empresa",
-    "round": "Ronda actual",
+    "round": "Mes actual",
     "profitability": "Rentabilidad acumulada",
     "brand": "Marca",
     "cs": "Satisfacción del cliente",
-    "decisions_open": "📋 Ventana de decisiones abierta",
-    "decisions_locked": "🔒 Decisiones enviadas — Resultados mañana",
+    "decisions_open": "📋 Podés tomar las decisiones del mes",
+    "decisions_locked": "🔒 Decisiones enviadas — Informe del mes disponible mañana",
     "decisions_close_at": "Cierra a las {time}",
     "make_decisions": "Tomar decisiones",
     "view_results": "Ver resultados",
@@ -90,8 +91,8 @@
     "my_evolution": "Mi evolución"
   },
   "decisions": {
-    "title": "Decisiones — Ronda {round}",
-    "subtitle": "Distribuí tu presupuesto. No podés asignar más de lo que tenés.",
+    "title": "Decisiones — Mes {round}",
+    "subtitle": "Tomá las decisiones operativas de este mes. No podés asignar más capital del que tenés.",
     "available": "Disponible",
     "allocated": "Asignado",
     "remaining": "Libre (liquidez)",
@@ -117,20 +118,20 @@
     "training": "Capacitación",
     "bonus": "Bono motivacional",
     "research": "Investigación de mercado",
-    "research_desc": "Obtenés información sobre la próxima ronda. Cuanto más invertís, más detalle.",
+    "research_desc": "Obtenés información sobre el próximo mes. Cuanto más invertís, más detalle.",
     "research_basic": "Básica — 1 insight",
     "research_standard": "Estándar — 3 insights",
     "research_premium": "Premium — 5 insights + evento",
     "investments": "Inversiones financieras",
     "investments_desc": "Invertí el dinero que no usás en el negocio. Más riesgo = más retorno posible.",
     "confirm_title": "¿Confirmás tus decisiones?",
-    "confirm_warning": "Una vez enviadas, no podés cambiarlas hasta la próxima ronda.",
+    "confirm_warning": "Una vez enviadas, no podés modificarlas. Los resultados del mes estarán disponibles mañana.",
     "budget_exceeded": "⚠️ Superaste tu presupuesto disponible",
     "min_employees": "Mínimo recomendado: {n} empleados para este producto"
   },
   "results": {
-    "title": "Resultados — Ronda {round}",
-    "subtitle": "Así le fue a tu empresa hoy",
+    "title": "Informe mensual — Mes {round}",
+    "subtitle": "Así le fue a tu empresa este mes",
     "revenue": "Ingresos",
     "costs": "Costos operativos",
     "net_profit": "Ganancia neta",
@@ -146,8 +147,8 @@
     "op_efficiency": "Eficiencia operativa",
     "emp_productivity": "Productividad empleados",
     "marketing_effect": "Efecto del marketing",
-    "event_title": "Evento del día",
-    "next_round": "Próxima ronda"
+    "event_title": "Evento del mes",
+    "next_round": "Próximo mes"
   },
   "leaderboard": {
     "title": "Ranking",
@@ -159,7 +160,7 @@
     "location": "Ubicación",
     "profitability": "Rentabilidad",
     "capital": "Capital",
-    "rounds": "Rondas",
+    "rounds": "Meses",
     "you": "Vos"
   },
   "investments": {
@@ -314,7 +315,7 @@
     },
     "liquidity_crisis": {
       "title": "⚠️ Crisis de liquidez",
-      "msg": "Tu capital bajó por debajo del 15% del inicio. Esto penalizará la próxima ronda.",
+      "msg": "Tu capital bajó por debajo del 15% del inicio. Esto penalizará el próximo mes.",
       "learn": "Siempre reservá algo de liquidez para emergencias y oportunidades."
     },
     "no_marketing": {
@@ -332,12 +333,12 @@
       "learn": "Los clientes premium esperan calidad. El mismatch destruye la confianza de marca."
     },
     "profitable": {
-      "title": "¡Ronda rentable!",
-      "msg": "Tu capital creció un {pct}% esta ronda. ¡Muy bien!"
+      "title": "¡Mes rentable!",
+      "msg": "Tu capital creció un {pct}% este mes. ¡Muy bien!"
     },
     "loss": {
-      "title": "Ronda con pérdida",
-      "msg": "Perdiste ${loss} esta ronda. Analizá los costos y ajustá la estrategia.",
+      "title": "Mes con pérdida",
+      "msg": "Perdiste ${loss} este mes. Analizá los costos y ajustá la estrategia.",
       "learn": "Las pérdidas ocasionales son normales. Lo importante es aprender qué las causó."
     },
     "understaffed": {
@@ -428,16 +429,16 @@
     }
   },
   "research": {
-    "demand_forecast": "Se estima una demanda de {low} a {high} unidades para tu producto esta ronda.",
+    "demand_forecast": "Se estima una demanda de {low} a {high} unidades para tu producto este mes.",
     "high_competition": "La competencia en {location} es alta ({pct}%). Diferenciarte es clave.",
     "low_competition": "Competencia baja en {location} ({pct}%). Buena oportunidad.",
     "price_sensitive": "Tu segmento es muy sensible al precio. Bajar el precio puede aumentar significativamente la demanda.",
     "price_tolerant": "Tu segmento no es muy sensible al precio. Podés cobrar más sin perder mucha demanda.",
-    "early_game_tip": "En las primeras rondas, construir marca es más importante que maximizar ganancias.",
-    "mid_game_tip": "A mitad de juego, el balance entre crecimiento y eficiencia es clave.",
-    "late_game_tip": "En las últimas rondas, consolidar lo ganado es tan importante como seguir creciendo.",
-    "event_hint": "Los analistas detectan señales de un posible evento de tipo '{eventType}' para la próxima ronda.",
-    "no_clear_event": "No hay señales claras de eventos excepcionales para la próxima ronda."
+    "early_game_tip": "En los primeros meses, construir marca es más importante que maximizar ganancias.",
+    "mid_game_tip": "A mitad del juego, el balance entre crecimiento y eficiencia es clave.",
+    "late_game_tip": "En los últimos meses, consolidar lo ganado es tan importante como seguir creciendo.",
+    "event_hint": "Los analistas detectan señales de un posible evento de tipo '{eventType}' para el próximo mes.",
+    "no_clear_event": "No hay señales claras de eventos excepcionales para el próximo mes."
   },
   "admin": {
     "title": "Panel de administración",
@@ -449,7 +450,7 @@
     "close_time": "Hora de cierre",
     "game_code": "Código de acceso",
     "participants": "Participantes",
-    "active_rounds": "Rondas activas",
+    "active_rounds": "Mes actual",
     "filter_school": "Filtrar por colegio",
     "filter_grade": "Filtrar por grado",
     "filter_subject": "Filtrar por materia",
@@ -467,7 +468,7 @@
     "game_not_found": "Juego no encontrado.",
     "invalid_code": "Código de juego inválido.",
     "budget_exceeded": "No podés asignar más de tu capital disponible.",
-    "round_locked": "Esta ronda ya cerró. Esperá los resultados.",
+    "round_locked": "Este mes ya cerró. El informe estará disponible mañana.",
     "company_exists": "Ya tenés una empresa en este juego."
   }
 }

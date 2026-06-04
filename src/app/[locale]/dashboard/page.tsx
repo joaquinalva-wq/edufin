@@ -172,7 +172,7 @@ export default function DashboardPage({ params }: { params: { locale: string } }
                 <div>
                   <p className="text-xs text-white/40">{t('round')}</p>
                   <p className="text-lg font-bold text-white">
-                    Ronda {latestRound.roundNumber} / {10}
+                    Mes {latestRound.roundNumber} / {10}
                   </p>
                 </div>
                 <div className={`px-3 py-1 rounded-full text-xs font-medium ${roundOpen ? 'bg-violet-500/20 text-violet-300' : 'bg-white/10 text-white/50'}`}>
@@ -190,7 +190,7 @@ export default function DashboardPage({ params }: { params: { locale: string } }
                 </Button>
               ) : (
                 <div className="text-center text-white/50 text-sm py-2">
-                  ⏳ Simulando resultados... disponibles mañana
+                  ⏳ El informe del mes estará disponible mañana a las 19:00 hs
                 </div>
               )}
             </>

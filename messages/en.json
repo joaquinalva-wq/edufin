@@ -19,9 +19,10 @@
     "required": "Required",
     "optional": "Optional",
     "currency": "USD",
-    "round": "Round",
+    "round": "Month",
     "of": "of",
-    "day": "Day"
+    "day": "Day",
+    "month": "Month"
   },
   "auth": {
     "login": "Sign In",
@@ -46,13 +47,13 @@
   },
   "onboarding": {
     "step1_title": "Welcome to EduFin!",
-    "step1_desc": "You'll create and manage your own company over 10 real game days. Every day you make decisions, every night results are calculated.",
+    "step1_desc": "You'll create and manage your own company over several weeks. Each real day = 1 virtual month of operations. Every day you make business decisions, and that night the monthly results are calculated.",
     "step2_title": "Your company, your rules",
     "step2_desc": "Choose your product, location, prices, employees and marketing. But be careful: the budget is limited. You can't do everything at once.",
     "step3_title": "Invest in financial markets",
     "step3_desc": "Money you don't use in the business can be invested. More risk = more potential return. The key is balance.",
-    "step4_title": "Learn with every round",
-    "step4_desc": "The next day you see exactly why you made or lost money. The leaderboard updates in real time.",
+    "step4_title": "Monthly business report",
+    "step4_desc": "The next day you see the monthly report: how your decisions impacted performance, how much you sold, what market events occurred, and where you stand in the ranking.",
     "start": "Create my company!"
   },
   "company": {
@@ -77,12 +78,12 @@
     "title": "My company",
     "capital": "Available capital",
     "net_worth": "Company value",
-    "round": "Current round",
+    "round": "Current month",
     "profitability": "Cumulative profitability",
     "brand": "Brand",
     "cs": "Customer satisfaction",
-    "decisions_open": "📋 Decision window is open",
-    "decisions_locked": "🔒 Decisions submitted — Results tomorrow",
+    "decisions_open": "📋 You can submit this month's decisions",
+    "decisions_locked": "🔒 Decisions submitted — Monthly report available tomorrow",
     "decisions_close_at": "Closes at {time}",
     "make_decisions": "Make decisions",
     "view_results": "View results",
@@ -90,8 +91,8 @@
     "my_evolution": "My evolution"
   },
   "decisions": {
-    "title": "Decisions — Round {round}",
-    "subtitle": "Distribute your budget. You can't allocate more than you have.",
+    "title": "Decisions — Month {round}",
+    "subtitle": "Make this month's operating decisions. You can't allocate more capital than you have.",
     "available": "Available",
     "allocated": "Allocated",
     "remaining": "Liquid (kept)",
@@ -117,20 +118,20 @@
     "training": "Training",
     "bonus": "Motivation bonus",
     "research": "Market research",
-    "research_desc": "Get information about the next round. The more you invest, the more detail you get.",
+    "research_desc": "Get information about the next month. The more you invest, the more detail you get.",
     "research_basic": "Basic — 1 insight",
     "research_standard": "Standard — 3 insights",
     "research_premium": "Premium — 5 insights + event",
     "investments": "Financial investments",
     "investments_desc": "Invest money you don't use in the business. More risk = more potential return.",
     "confirm_title": "Confirm your decisions?",
-    "confirm_warning": "Once submitted, you can't change them until the next round.",
+    "confirm_warning": "Once submitted, you can't change them. The monthly report will be available tomorrow.",
     "budget_exceeded": "⚠️ You exceeded your available budget",
     "min_employees": "Recommended minimum: {n} employees for this product"
   },
   "results": {
-    "title": "Results — Round {round}",
-    "subtitle": "Here's how your company did today",
+    "title": "Monthly Report — Month {round}",
+    "subtitle": "Here's how your company did this month",
     "revenue": "Revenue",
     "costs": "Operating costs",
     "net_profit": "Net profit",
@@ -146,8 +147,8 @@
     "op_efficiency": "Operational efficiency",
     "emp_productivity": "Employee productivity",
     "marketing_effect": "Marketing effect",
-    "event_title": "Today's event",
-    "next_round": "Next round"
+    "event_title": "This month's event",
+    "next_round": "Next month"
   },
   "leaderboard": {
     "title": "Leaderboard",
@@ -159,7 +160,7 @@
     "location": "Location",
     "profitability": "Profitability",
     "capital": "Capital",
-    "rounds": "Rounds",
+    "rounds": "Months",
     "you": "You"
   },
   "investments": {
@@ -332,12 +333,12 @@
       "learn": "Premium customers expect quality. Mismatch destroys brand trust."
     },
     "profitable": {
-      "title": "Profitable round!",
-      "msg": "Your capital grew {pct}% this round. Well done!"
+      "title": "Profitable month!",
+      "msg": "Your capital grew {pct}% this month. Well done!"
     },
     "loss": {
-      "title": "Round with a loss",
-      "msg": "You lost ${loss} this round. Analyze costs and adjust your strategy.",
+      "title": "Month with a loss",
+      "msg": "You lost ${loss} this month. Analyze costs and adjust your strategy.",
       "learn": "Occasional losses are normal. What matters is learning what caused them."
     },
     "understaffed": {

@@ -28,7 +28,7 @@ const MESSAGE_MAP: Record<string, string> = {
   'feedback.overstock.title': 'Sobrestock',
   'feedback.overstock.msg': 'Te sobraron {units} unidades. Ajustá la producción.',
   'feedback.liquidity_crisis.title': '⚠️ Crisis de liquidez',
-  'feedback.liquidity_crisis.msg': 'Tu capital cayó por debajo del 15%. La próxima ronda tendrá penalización.',
+  'feedback.liquidity_crisis.msg': 'Tu capital cayó por debajo del 15%. El próximo mes tendrá penalización.',
   'feedback.liquidity_crisis.learn': 'Siempre reservá liquidez para emergencias.',
   'feedback.no_marketing.title': 'Sin marketing',
   'feedback.no_marketing.msg': 'Sin marketing, tu demanda base cae significativamente.',
@@ -38,10 +38,10 @@ const MESSAGE_MAP: Record<string, string> = {
   'feedback.quality_mismatch.title': 'Incoherencia de calidad',
   'feedback.quality_mismatch.msg': 'Materiales baratos con posicionamiento premium erosionan tu marca.',
   'feedback.quality_mismatch.learn': 'Los clientes premium esperan calidad real.',
-  'feedback.profitable.title': '¡Ronda rentable!',
-  'feedback.profitable.msg': 'Tu capital creció un {pct}% esta ronda. ¡Muy bien!',
-  'feedback.loss.title': 'Ronda con pérdida',
-  'feedback.loss.msg': 'Perdiste ${loss} esta ronda. Analizá los costos.',
+  'feedback.profitable.title': '¡Mes rentable!',
+  'feedback.profitable.msg': 'Tu capital creció un {pct}% este mes. ¡Muy bien!',
+  'feedback.loss.title': 'Mes con pérdida',
+  'feedback.loss.msg': 'Perdiste ${loss} este mes. Analizá los costos.',
   'feedback.loss.learn': 'Las pérdidas ocasionales son normales. Lo importante es aprender qué las causó.',
   'feedback.understaffed.title': 'Pocos empleados',
   'feedback.understaffed.msg': 'Eficiencia operativa baja por falta de personal.',
@@ -109,8 +109,9 @@ export default function ResultsPage({ params }: { params: { locale: string; roun
 
         {/* Header */}
         <div className="text-center animate-slide-up pt-4">
-          <h1 className="text-2xl font-bold gradient-text">Resultados — Ronda {round.roundNumber}</h1>
-          <p className="text-white/50 text-sm mt-1">Así le fue a tu empresa hoy</p>
+          <p className="text-xs text-white/30 mb-1 uppercase tracking-wider">Informe mensual</p>
+          <h1 className="text-2xl font-bold gradient-text">Mes {round.roundNumber}</h1>
+          <p className="text-white/50 text-sm mt-1">Así le fue a tu empresa este mes</p>
         </div>
 
         {/* Capital change hero */}
@@ -130,7 +131,7 @@ export default function ResultsPage({ params }: { params: { locale: string; roun
         {/* Random event */}
         {event && (
           <div className="glass-card rounded-2xl p-4 border border-amber-500/20">
-            <p className="text-xs text-amber-400 font-medium mb-1">⚡ Evento del día</p>
+            <p className="text-xs text-amber-400 font-medium mb-1">⚡ Evento del mes</p>
             <div className="flex items-center gap-3">
               <span className="text-3xl">{event.emoji}</span>
               <div>
@@ -162,7 +163,7 @@ export default function ResultsPage({ params }: { params: { locale: string; roun
 
         {/* P&L */}
         <div className="glass-card rounded-2xl p-4">
-          <h3 className="font-bold text-white mb-3">💰 P&L de la ronda</h3>
+          <h3 className="font-bold text-white mb-3">💰 Resultados del mes</h3>
           <div className="flex flex-col gap-2">
             {[
               { label: 'Ingresos por ventas', val: r.revenue, positive: true },
@@ -263,7 +264,7 @@ export default function ResultsPage({ params }: { params: { locale: string; roun
         {/* Feedback educativo */}
         {r.feedbackPoints?.length > 0 && (
           <div className="flex flex-col gap-3">
-            <h3 className="font-bold text-white">💡 Lo que aprendiste hoy</h3>
+            <h3 className="font-bold text-white">💡 Análisis del mes — ¿qué impactó en tu empresa?</h3>
             {r.feedbackPoints.map((fp, i) => (
               <FeedbackCard key={i} point={fp} messageMap={MESSAGE_MAP} />
             ))}
