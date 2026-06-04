@@ -6,8 +6,9 @@ import { simulateRound } from '@/lib/simulation/engine';
 import { pickRandomEvents } from '@/constants/events';
 import type { Decision, Company, Game, Round } from '@/types';
 
-// Vercel Cron Job: runs every hour at :00
-// In vercel.json: { "crons": [{ "path": "/api/cron", "schedule": "0 * * * *" }] }
+// Vercel Cron Job: runs once daily at 22:00 UTC (19:00 hs Argentina)
+// In vercel.json: { "crons": [{ "path": "/api/cron", "schedule": "0 22 * * *" }] }
+// Hobby plan only allows one cron per day — processes ALL active games.
 
 export async function GET(req: NextRequest) {
   // In production Vercel sends Authorization: Bearer <CRON_SECRET> automatically.
@@ -22,9 +23,8 @@ export async function GET(req: NextRequest) {
 
   const db = adminDb();
   const now = new Date();
-  const currentHour = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
-  // Find active games whose close time matches current hour (within ±5 min window)
+  // Process ALL active games — cron runs once per day so no time-matching needed
   const gamesSnap = await db.collection('games')
     .where('status', '==', 'active')
     .get();
@@ -33,26 +33,15 @@ export async function GET(req: NextRequest) {
 
   for (const gameDoc of gamesSnap.docs) {
     const game = { id: gameDoc.id, ...gameDoc.data() } as Game;
-
-    // Check if close time matches current time (±5 min tolerance)
-    if (!isCloseTimeNow(game.decisionCloseTime, now)) continue;
-
     try {
       await runGameSimulation(db, game);
-      results.push(`✓ Game ${game.id} simulated`);
+      results.push(`✓ Game ${game.id} round ${game.currentRound} simulated`);
     } catch (err) {
       results.push(`✗ Game ${game.id}: ${String(err)}`);
     }
   }
 
-  return NextResponse.json({ processed: results, time: currentHour });
-}
-
-function isCloseTimeNow(closeTime: string, now: Date): boolean {
-  const [h, m] = closeTime.split(':').map(Number);
-  const closeMinutes = h * 60 + m;
-  const nowMinutes = now.getHours() * 60 + now.getMinutes();
-  return Math.abs(closeMinutes - nowMinutes) <= 5;
+  return NextResponse.json({ processed: results, time: now.toISOString() });
 }
 
 async function runGameSimulation(db: FirebaseFirestore.Firestore, game: Game) {
@@ -117,7 +106,7 @@ async function runGameSimulation(db: FirebaseFirestore.Firestore, game: Game) {
     // Update company
     batch.update(db.collection('companies').doc(company.id), {
       currentCapital: result.endingCapital,
-      netWorth: result.endingCapital, // simplified; add company value logic later
+      netWorth: result.endingCapital,
       brandStrength: result.brandStrengthNew,
       customerSatisfaction: result.customerSatisfactionNew,
       employeeMorale: result.employeeMoraleNew,
