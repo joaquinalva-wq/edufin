@@ -1,0 +1,473 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "continue": "Continue",
+    "submit": "Submit",
+    "edit": "Edit",
+    "delete": "Delete",
+    "logout": "Logout",
+    "or": "or",
+    "yes": "Yes",
+    "no": "No",
+    "error": "Error",
+    "success": "Done!",
+    "required": "Required",
+    "optional": "Optional",
+    "currency": "USD",
+    "round": "Round",
+    "of": "of",
+    "day": "Day"
+  },
+  "auth": {
+    "login": "Sign In",
+    "register": "Create Account",
+    "email": "Email address",
+    "password": "Password",
+    "name": "Full name",
+    "school": "School / Institution",
+    "grade": "Grade / Year",
+    "subject": "Subject",
+    "google": "Continue with Google",
+    "already_account": "Already have an account?",
+    "no_account": "Don't have an account?",
+    "forgot_password": "Forgot password",
+    "join_game": "Have a game code?",
+    "game_code": "Game code",
+    "game_code_hint": "Your teacher will give you this code",
+    "welcome_back": "Welcome back!",
+    "create_account": "Create your account",
+    "login_subtitle": "Sign in to keep playing",
+    "register_subtitle": "Join the business simulator"
+  },
+  "onboarding": {
+    "step1_title": "Welcome to EduFin!",
+    "step1_desc": "You'll create and manage your own company over 10 real game days. Every day you make decisions, every night results are calculated.",
+    "step2_title": "Your company, your rules",
+    "step2_desc": "Choose your product, location, prices, employees and marketing. But be careful: the budget is limited. You can't do everything at once.",
+    "step3_title": "Invest in financial markets",
+    "step3_desc": "Money you don't use in the business can be invested. More risk = more potential return. The key is balance.",
+    "step4_title": "Learn with every round",
+    "step4_desc": "The next day you see exactly why you made or lost money. The leaderboard updates in real time.",
+    "start": "Create my company!"
+  },
+  "company": {
+    "create_title": "Create your company",
+    "create_subtitle": "These decisions are permanent. Think carefully!",
+    "company_name": "Company name",
+    "brand_name": "Brand name",
+    "choose_product": "Choose your product",
+    "choose_location": "Choose your location",
+    "choose_color": "Identity color",
+    "irrevocable_warning": "⚠️ This decision is permanent. Changing it would be very costly.",
+    "product_hint": "Each product has advantages and disadvantages. There's no clearly superior one.",
+    "location_hint": "Location affects demand based on your product. The right combination is key.",
+    "cost_base": "Base cost",
+    "price_range": "Price range",
+    "rent": "Rent",
+    "traffic": "Traffic",
+    "confirm_title": "Confirm your company?",
+    "confirm_warning": "Once created, you can't change the product or location."
+  },
+  "dashboard": {
+    "title": "My company",
+    "capital": "Available capital",
+    "net_worth": "Company value",
+    "round": "Current round",
+    "profitability": "Cumulative profitability",
+    "brand": "Brand",
+    "cs": "Customer satisfaction",
+    "decisions_open": "📋 Decision window is open",
+    "decisions_locked": "🔒 Decisions submitted — Results tomorrow",
+    "decisions_close_at": "Closes at {time}",
+    "make_decisions": "Make decisions",
+    "view_results": "View results",
+    "leaderboard": "Leaderboard",
+    "my_evolution": "My evolution"
+  },
+  "decisions": {
+    "title": "Decisions — Round {round}",
+    "subtitle": "Distribute your budget. You can't allocate more than you have.",
+    "available": "Available",
+    "allocated": "Allocated",
+    "remaining": "Liquid (kept)",
+    "production": "Production",
+    "units": "Units to produce",
+    "material": "Material quality",
+    "supplier": "Supplier",
+    "pricing": "Pricing",
+    "price_label": "Selling price",
+    "local": "Store",
+    "local_investment": "Store improvements",
+    "service": "Service level",
+    "hours": "Opening hours",
+    "days": "Days open",
+    "marketing": "Marketing",
+    "marketing_budget": "Marketing budget",
+    "marketing_channel": "Channels",
+    "marketing_quality": "Campaign quality",
+    "positioning": "Positioning",
+    "employees": "Employees",
+    "employee_count": "Number of employees",
+    "employee_type": "Employee type",
+    "training": "Training",
+    "bonus": "Motivation bonus",
+    "research": "Market research",
+    "research_desc": "Get information about the next round. The more you invest, the more detail you get.",
+    "research_basic": "Basic — 1 insight",
+    "research_standard": "Standard — 3 insights",
+    "research_premium": "Premium — 5 insights + event",
+    "investments": "Financial investments",
+    "investments_desc": "Invest money you don't use in the business. More risk = more potential return.",
+    "confirm_title": "Confirm your decisions?",
+    "confirm_warning": "Once submitted, you can't change them until the next round.",
+    "budget_exceeded": "⚠️ You exceeded your available budget",
+    "min_employees": "Recommended minimum: {n} employees for this product"
+  },
+  "results": {
+    "title": "Results — Round {round}",
+    "subtitle": "Here's how your company did today",
+    "revenue": "Revenue",
+    "costs": "Operating costs",
+    "net_profit": "Net profit",
+    "investment_return": "Investment return",
+    "capital_change": "Capital change",
+    "ending_capital": "Ending capital",
+    "units_sold": "Units sold",
+    "units_potential": "Potential demand",
+    "stock_shortfall": "Lost sales due to stock shortage",
+    "what_happened": "What happened?",
+    "your_indices": "Your indices",
+    "plf": "Product-location fit",
+    "op_efficiency": "Operational efficiency",
+    "emp_productivity": "Employee productivity",
+    "marketing_effect": "Marketing effect",
+    "event_title": "Today's event",
+    "next_round": "Next round"
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "my_game": "My game",
+    "global": "Global",
+    "rank": "#",
+    "company": "Company",
+    "product": "Product",
+    "location": "Location",
+    "profitability": "Profitability",
+    "capital": "Capital",
+    "rounds": "Rounds",
+    "you": "You"
+  },
+  "investments": {
+    "savings": {
+      "name": "Safe account",
+      "desc": "Guaranteed return, very low risk. Ideal for preserving capital."
+    },
+    "bond": {
+      "name": "Fictitious bond",
+      "desc": "Fictitious government debt. Stable and predictable medium-term."
+    },
+    "conservative_fund": {
+      "name": "Conservative fund",
+      "desc": "Diversified low-risk portfolio. Better than a savings account."
+    },
+    "balanced_fund": {
+      "name": "Balanced fund",
+      "desc": "Mix of stocks and bonds. Moderate risk, reasonable return."
+    },
+    "stocks": {
+      "name": "Fictitious stocks",
+      "desc": "High volatility. You could gain a lot or lose quite a bit in one round."
+    },
+    "crypto": {
+      "name": "Fictitious crypto",
+      "desc": "Very high volatility. Can multiply or crash within days."
+    },
+    "startup": {
+      "name": "Fictitious startup",
+      "desc": "High-risk investment. If it takes off: spectacular return. If it fails: big loss."
+    }
+  },
+  "products": {
+    "bikes": {
+      "name": "Urban Bicycles",
+      "desc": "High cost, good margin. Quality and location are everything."
+    },
+    "skateboards": {
+      "name": "Skateboards",
+      "desc": "Low cost, high youth demand. Branding is the key."
+    },
+    "escooters": {
+      "name": "Electric Scooters",
+      "desc": "The most expensive and risky. Potential for very high margins."
+    },
+    "backpacks": {
+      "name": "Smart Backpacks",
+      "desc": "Stable demand in educational zones. Design matters a lot."
+    },
+    "bottles": {
+      "name": "Thermal Bottles",
+      "desc": "High volume, low margin product. Key: differentiation."
+    },
+    "headphones": {
+      "name": "Sports Headphones",
+      "desc": "High demand, heavy competition. Without marketing, you don't exist."
+    }
+  },
+  "locations": {
+    "school": {
+      "name": "School zone",
+      "desc": "Teenage market. Moderate and predictable traffic."
+    },
+    "university": {
+      "name": "University zone",
+      "desc": "Young adults with their own budget. High receptiveness to trends."
+    },
+    "mall": {
+      "name": "Shopping mall",
+      "desc": "Maximum traffic, maximum competition. High rent."
+    },
+    "residential": {
+      "name": "Residential neighborhood",
+      "desc": "Low but loyal traffic. Minimal risk, cheap rent."
+    },
+    "tourist": {
+      "name": "Tourist zone",
+      "desc": "Very variable. Big opportunities in peak season."
+    },
+    "sports": {
+      "name": "Sports zone",
+      "desc": "Active and specific audience. Good synergy with physical products."
+    }
+  },
+  "risk": {
+    "very_low": "Very low",
+    "low": "Low",
+    "medium": "Moderate",
+    "high": "High",
+    "very_high": "Very high"
+  },
+  "material": {
+    "cheap": "Economy",
+    "medium": "Standard",
+    "premium": "Premium"
+  },
+  "supplier": {
+    "budget": "Budget",
+    "standard": "Standard",
+    "premium": "High quality"
+  },
+  "employee_type": {
+    "cheap": "Inexperienced",
+    "balanced": "Balanced",
+    "expert": "Expert"
+  },
+  "service_level": {
+    "basic": "Basic",
+    "standard": "Standard",
+    "premium": "Premium"
+  },
+  "marketing_quality": {
+    "basic": "Basic",
+    "professional": "Professional",
+    "creative": "Creative"
+  },
+  "positioning": {
+    "budget": "Budget",
+    "quality_price": "Quality-price",
+    "premium": "Premium",
+    "sustainable": "Sustainable",
+    "sports": "Sports",
+    "youth": "Youth/Urban"
+  },
+  "channels": {
+    "social_media": "Social media",
+    "influencers": "Influencers",
+    "local_advertising": "Local advertising",
+    "promotions": "Promotions",
+    "events": "Events",
+    "school_university": "School/University marketing",
+    "word_of_mouth": "Word of mouth"
+  },
+  "feedback": {
+    "great_fit": {
+      "title": "Excellent combination!",
+      "msg": "Your product works very well in this location (fit: {fit}). Keep optimizing."
+    },
+    "poor_fit": {
+      "title": "Bad product-location match",
+      "msg": "Your product doesn't fit well here (fit: {fit}). Consider relocating.",
+      "learn": "Product-location compatibility can multiply or divide your demand."
+    },
+    "stock_out": {
+      "title": "Ran out of stock!",
+      "msg": "You lost {units} potential sales (approx. ${lost}). Produce more next round.",
+      "learn": "Running out of stock loses immediate sales and reduces customer satisfaction."
+    },
+    "overstock": {
+      "title": "Overstock",
+      "msg": "{units} units left over. Adjust production to match actual demand."
+    },
+    "liquidity_crisis": {
+      "title": "⚠️ Liquidity crisis",
+      "msg": "Your capital dropped below 15% of the start. This will penalize the next round.",
+      "learn": "Always keep some liquidity for emergencies and opportunities."
+    },
+    "no_marketing": {
+      "title": "No marketing",
+      "msg": "You didn't invest in marketing. Your base demand drops significantly.",
+      "learn": "Marketing isn't an expense — it's an investment in future demand."
+    },
+    "great_marketing": {
+      "title": "Effective marketing!",
+      "msg": "Your campaign boosted demand by {effect}% above base."
+    },
+    "quality_mismatch": {
+      "title": "Quality inconsistency",
+      "msg": "You're using cheap materials with premium positioning. This erodes your brand.",
+      "learn": "Premium customers expect quality. Mismatch destroys brand trust."
+    },
+    "profitable": {
+      "title": "Profitable round!",
+      "msg": "Your capital grew {pct}% this round. Well done!"
+    },
+    "loss": {
+      "title": "Round with a loss",
+      "msg": "You lost ${loss} this round. Analyze costs and adjust your strategy.",
+      "learn": "Occasional losses are normal. What matters is learning what caused them."
+    },
+    "understaffed": {
+      "title": "Understaffed",
+      "msg": "Operational efficiency was low due to insufficient staff. Consider hiring more."
+    }
+  },
+  "events": {
+    "viral_trend_bikes": {
+      "name": "Viral trend — mobility",
+      "desc": "A viral video spiked interest in bikes and electric scooters."
+    },
+    "school_season": {
+      "name": "School season",
+      "desc": "Start of the school year. Backpacks and bottles in high demand."
+    },
+    "sports_event": {
+      "name": "Local sports event",
+      "desc": "A regional tournament filled sports and tourist zones."
+    },
+    "new_competitor": {
+      "name": "New competitor",
+      "desc": "A new business entered the market in the main zones."
+    },
+    "material_cost_spike": {
+      "name": "Material cost spike",
+      "desc": "Production prices rose 28% this round."
+    },
+    "good_reviews": {
+      "name": "Viral positive reviews",
+      "desc": "An influencer praised your type of product. Demand rising."
+    },
+    "bad_reviews": {
+      "name": "Negative reviews",
+      "desc": "Social media complaints about similar products. Demand dropped."
+    },
+    "eco_trend": {
+      "name": "Sustainability boom",
+      "desc": "The eco-friendly movement boosted demand for mobility products."
+    },
+    "economic_upswing": {
+      "name": "Economic upswing",
+      "desc": "The fictitious economy grew. Consumers have more to spend."
+    },
+    "mild_recession": {
+      "name": "Mild recession",
+      "desc": "Consumption fell. Premium products were most affected."
+    },
+    "viral_social_media": {
+      "name": "Viral on social media",
+      "desc": "Skateboards and headphones went viral among young people."
+    },
+    "supply_disruption": {
+      "name": "Supply chain disruption",
+      "desc": "Supply chain issues hit. Costs rose 35%."
+    },
+    "local_festival": {
+      "name": "Local festival",
+      "desc": "A massive festival filled the tourist and commercial zones."
+    },
+    "tax_break": {
+      "name": "Tax break",
+      "desc": "The fictitious government reduced taxes. Costs drop 12%."
+    },
+    "energy_crisis": {
+      "name": "Energy crisis",
+      "desc": "Power cuts affected store operations."
+    },
+    "influencer_collab": {
+      "name": "Influencer collaboration",
+      "desc": "A mega-influencer praised products like yours."
+    },
+    "tech_regulation": {
+      "name": "New tech regulation",
+      "desc": "The fictitious government regulated e-scooters and crypto. More costs."
+    },
+    "crypto_boom": {
+      "name": "Crypto boom",
+      "desc": "Digital assets skyrocketed. Crypto and startup investors gained big."
+    },
+    "partnership_opportunity": {
+      "name": "Partnership opportunity",
+      "desc": "A company wants to distribute your product. You need liquidity to grab it."
+    },
+    "inflation_spike": {
+      "name": "Inflation spike",
+      "desc": "Fictitious inflation raised costs and reduced purchasing power."
+    }
+  },
+  "research": {
+    "demand_forecast": "Estimated demand: {low} to {high} units for your product this round.",
+    "high_competition": "Competition in {location} is high ({pct}%). Differentiation is key.",
+    "low_competition": "Low competition in {location} ({pct}%). Good opportunity.",
+    "price_sensitive": "Your segment is very price-sensitive. Lowering price can significantly increase demand.",
+    "price_tolerant": "Your segment is not very price-sensitive. You can charge more without losing much demand.",
+    "early_game_tip": "In early rounds, building brand is more important than maximizing profit.",
+    "mid_game_tip": "Mid-game, the balance between growth and efficiency is key.",
+    "late_game_tip": "In the final rounds, consolidating gains is as important as continuing to grow.",
+    "event_hint": "Analysts detect signals of a possible '{eventType}' event next round.",
+    "no_clear_event": "No clear signals of exceptional events for next round."
+  },
+  "admin": {
+    "title": "Admin panel",
+    "students": "Students",
+    "games": "Games",
+    "reports": "Reports",
+    "create_game": "Create game",
+    "game_name": "Game name",
+    "close_time": "Close time",
+    "game_code": "Access code",
+    "participants": "Participants",
+    "active_rounds": "Active rounds",
+    "filter_school": "Filter by school",
+    "filter_grade": "Filter by grade",
+    "filter_subject": "Filter by subject",
+    "export_csv": "Export CSV",
+    "export_pdf": "Export PDF",
+    "student_detail": "Student detail",
+    "auto_report": "Auto report",
+    "risk_profile": "Risk profile",
+    "strategy_profile": "Strategy profile",
+    "run_simulation": "Run simulation"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "auth_failed": "Authentication error.",
+    "game_not_found": "Game not found.",
+    "invalid_code": "Invalid game code.",
+    "budget_exceeded": "You can't allocate more than your available capital.",
+    "round_locked": "This round is closed. Wait for the results.",
+    "company_exists": "You already have a company in this game."
+  }
+}

@@ -1,0 +1,473 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "continue": "Continuar",
+    "submit": "Enviar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "logout": "Cerrar sesión",
+    "or": "o",
+    "yes": "Sí",
+    "no": "No",
+    "error": "Error",
+    "success": "¡Listo!",
+    "required": "Requerido",
+    "optional": "Opcional",
+    "currency": "USD",
+    "round": "Ronda",
+    "of": "de",
+    "day": "Día"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "register": "Crear cuenta",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "name": "Nombre y apellido",
+    "school": "Colegio / Institución",
+    "grade": "Grado / Año",
+    "subject": "Materia",
+    "google": "Continuar con Google",
+    "already_account": "¿Ya tenés cuenta?",
+    "no_account": "¿No tenés cuenta?",
+    "forgot_password": "Olvidé mi contraseña",
+    "join_game": "¿Tenés un código de juego?",
+    "game_code": "Código de juego",
+    "game_code_hint": "Tu docente te dará este código",
+    "welcome_back": "¡Bienvenido/a de vuelta!",
+    "create_account": "Creá tu cuenta",
+    "login_subtitle": "Ingresá para seguir jugando",
+    "register_subtitle": "Unite al simulador empresarial"
+  },
+  "onboarding": {
+    "step1_title": "¡Bienvenido/a a EduFin!",
+    "step1_desc": "Vas a crear y gestionar tu propia empresa en 10 días de juego real. Cada día tomás decisiones, cada noche se calculan los resultados.",
+    "step2_title": "Tu empresa, tus reglas",
+    "step2_desc": "Elegís producto, ubicación, precios, empleados y marketing. Pero cuidado: el presupuesto es limitado. No podés hacer todo a la vez.",
+    "step3_title": "Invertí en el mercado financiero",
+    "step3_desc": "El dinero que no usás en el negocio puede invertirse. Más riesgo = más retorno posible. La clave es el balance.",
+    "step4_title": "Aprendé con cada ronda",
+    "step4_desc": "Al día siguiente ves exactamente por qué ganaste o perdiste dinero. El ranking se actualiza en tiempo real.",
+    "start": "¡Crear mi empresa!"
+  },
+  "company": {
+    "create_title": "Creá tu empresa",
+    "create_subtitle": "Estas decisiones son permanentes. ¡Pensalas bien!",
+    "company_name": "Nombre de la empresa",
+    "brand_name": "Nombre de la marca",
+    "choose_product": "Elegí tu producto",
+    "choose_location": "Elegí tu ubicación",
+    "choose_color": "Color de identidad",
+    "irrevocable_warning": "⚠️ Esta decisión es permanente. Cambiarlo tendría un costo muy alto.",
+    "product_hint": "Cada producto tiene ventajas y desventajas. No existe uno claramente mejor.",
+    "location_hint": "La ubicación afecta la demanda según el producto. La combinación correcta es clave.",
+    "cost_base": "Costo base",
+    "price_range": "Rango de precio",
+    "rent": "Alquiler",
+    "traffic": "Tráfico",
+    "confirm_title": "¿Confirmás tu empresa?",
+    "confirm_warning": "Una vez creada, no podés cambiar el producto ni la ubicación."
+  },
+  "dashboard": {
+    "title": "Mi empresa",
+    "capital": "Capital disponible",
+    "net_worth": "Valor de la empresa",
+    "round": "Ronda actual",
+    "profitability": "Rentabilidad acumulada",
+    "brand": "Marca",
+    "cs": "Satisfacción del cliente",
+    "decisions_open": "📋 Ventana de decisiones abierta",
+    "decisions_locked": "🔒 Decisiones enviadas — Resultados mañana",
+    "decisions_close_at": "Cierra a las {time}",
+    "make_decisions": "Tomar decisiones",
+    "view_results": "Ver resultados",
+    "leaderboard": "Ranking",
+    "my_evolution": "Mi evolución"
+  },
+  "decisions": {
+    "title": "Decisiones — Ronda {round}",
+    "subtitle": "Distribuí tu presupuesto. No podés asignar más de lo que tenés.",
+    "available": "Disponible",
+    "allocated": "Asignado",
+    "remaining": "Libre (liquidez)",
+    "production": "Producción",
+    "units": "Unidades a producir",
+    "material": "Calidad de materiales",
+    "supplier": "Proveedor",
+    "pricing": "Precio",
+    "price_label": "Precio de venta",
+    "local": "Local",
+    "local_investment": "Inversión en mejoras del local",
+    "service": "Nivel de servicio",
+    "hours": "Horas de apertura",
+    "days": "Días abierto",
+    "marketing": "Marketing",
+    "marketing_budget": "Presupuesto de marketing",
+    "marketing_channel": "Canales",
+    "marketing_quality": "Calidad de campaña",
+    "positioning": "Posicionamiento",
+    "employees": "Empleados",
+    "employee_count": "Cantidad de empleados",
+    "employee_type": "Tipo de empleados",
+    "training": "Capacitación",
+    "bonus": "Bono motivacional",
+    "research": "Investigación de mercado",
+    "research_desc": "Obtenés información sobre la próxima ronda. Cuanto más invertís, más detalle.",
+    "research_basic": "Básica — 1 insight",
+    "research_standard": "Estándar — 3 insights",
+    "research_premium": "Premium — 5 insights + evento",
+    "investments": "Inversiones financieras",
+    "investments_desc": "Invertí el dinero que no usás en el negocio. Más riesgo = más retorno posible.",
+    "confirm_title": "¿Confirmás tus decisiones?",
+    "confirm_warning": "Una vez enviadas, no podés cambiarlas hasta la próxima ronda.",
+    "budget_exceeded": "⚠️ Superaste tu presupuesto disponible",
+    "min_employees": "Mínimo recomendado: {n} empleados para este producto"
+  },
+  "results": {
+    "title": "Resultados — Ronda {round}",
+    "subtitle": "Así le fue a tu empresa hoy",
+    "revenue": "Ingresos",
+    "costs": "Costos operativos",
+    "net_profit": "Ganancia neta",
+    "investment_return": "Retorno de inversiones",
+    "capital_change": "Variación de capital",
+    "ending_capital": "Capital final",
+    "units_sold": "Unidades vendidas",
+    "units_potential": "Demanda potencial",
+    "stock_shortfall": "Ventas perdidas por falta de stock",
+    "what_happened": "¿Qué pasó?",
+    "your_indices": "Tus índices",
+    "plf": "Fit producto-ubicación",
+    "op_efficiency": "Eficiencia operativa",
+    "emp_productivity": "Productividad empleados",
+    "marketing_effect": "Efecto del marketing",
+    "event_title": "Evento del día",
+    "next_round": "Próxima ronda"
+  },
+  "leaderboard": {
+    "title": "Ranking",
+    "my_game": "Mi juego",
+    "global": "Global",
+    "rank": "#",
+    "company": "Empresa",
+    "product": "Producto",
+    "location": "Ubicación",
+    "profitability": "Rentabilidad",
+    "capital": "Capital",
+    "rounds": "Rondas",
+    "you": "Vos"
+  },
+  "investments": {
+    "savings": {
+      "name": "Cuenta segura",
+      "desc": "Rendimiento garantizado, muy bajo riesgo. Ideal para conservar capital."
+    },
+    "bond": {
+      "name": "Bono ficticio",
+      "desc": "Deuda de gobierno ficticio. Estable y predecible a mediano plazo."
+    },
+    "conservative_fund": {
+      "name": "Fondo conservador",
+      "desc": "Portafolio diversificado de bajo riesgo. Mejor que el plazo fijo."
+    },
+    "balanced_fund": {
+      "name": "Fondo balanceado",
+      "desc": "Mezcla de acciones y bonos. Riesgo moderado, retorno razonable."
+    },
+    "stocks": {
+      "name": "Acciones ficticias",
+      "desc": "Alta volatilidad. Podés ganar mucho o perder bastante en una ronda."
+    },
+    "crypto": {
+      "name": "Cripto ficticia",
+      "desc": "Muy alta volatilidad. Puede multiplicarse o desplomarse en días."
+    },
+    "startup": {
+      "name": "Startup ficticia",
+      "desc": "Inversión de alto riesgo. Si despega: retorno espectacular. Si falla: pérdida grande."
+    }
+  },
+  "products": {
+    "bikes": {
+      "name": "Bicicletas urbanas",
+      "desc": "Alto costo, buen margen. La calidad y la ubicación lo son todo."
+    },
+    "skateboards": {
+      "name": "Patinetas / Skateboards",
+      "desc": "Bajo costo, alta demanda juvenil. El branding es clave."
+    },
+    "escooters": {
+      "name": "Monopatines eléctricos",
+      "desc": "El más caro y riesgoso. Potencial de margen altísimo."
+    },
+    "backpacks": {
+      "name": "Mochilas inteligentes",
+      "desc": "Demanda estable en zonas educativas. El diseño importa mucho."
+    },
+    "bottles": {
+      "name": "Botellas térmicas",
+      "desc": "Producto de alto volumen y bajo margen. Clave: diferenciación."
+    },
+    "headphones": {
+      "name": "Auriculares deportivos",
+      "desc": "Alta demanda, mucha competencia. Sin marketing, no existís."
+    }
+  },
+  "locations": {
+    "school": {
+      "name": "Zona escolar",
+      "desc": "Mercado de adolescentes. Tráfico moderado y previsible."
+    },
+    "university": {
+      "name": "Zona universitaria",
+      "desc": "Jóvenes con presupuesto propio. Alta receptividad a tendencias."
+    },
+    "mall": {
+      "name": "Centro comercial",
+      "desc": "Máximo tráfico, máxima competencia. Alquiler alto."
+    },
+    "residential": {
+      "name": "Barrio residencial",
+      "desc": "Tráfico bajo pero fiel. Riesgo mínimo, alquiler barato."
+    },
+    "tourist": {
+      "name": "Zona turística",
+      "desc": "Muy variable. Grandes oportunidades en temporada alta."
+    },
+    "sports": {
+      "name": "Zona deportiva",
+      "desc": "Público activo y específico. Buena sinergía con productos físicos."
+    }
+  },
+  "risk": {
+    "very_low": "Muy bajo",
+    "low": "Bajo",
+    "medium": "Moderado",
+    "high": "Alto",
+    "very_high": "Muy alto"
+  },
+  "material": {
+    "cheap": "Económicos",
+    "medium": "Estándar",
+    "premium": "Premium"
+  },
+  "supplier": {
+    "budget": "Económico",
+    "standard": "Estándar",
+    "premium": "Alta calidad"
+  },
+  "employee_type": {
+    "cheap": "Inexpertos",
+    "balanced": "Equilibrados",
+    "expert": "Expertos"
+  },
+  "service_level": {
+    "basic": "Básico",
+    "standard": "Estándar",
+    "premium": "Premium"
+  },
+  "marketing_quality": {
+    "basic": "Básica",
+    "professional": "Profesional",
+    "creative": "Creativa"
+  },
+  "positioning": {
+    "budget": "Económico",
+    "quality_price": "Calidad-precio",
+    "premium": "Premium",
+    "sustainable": "Sustentable",
+    "sports": "Deportivo",
+    "youth": "Juvenil/Urbano"
+  },
+  "channels": {
+    "social_media": "Redes sociales",
+    "influencers": "Influencers",
+    "local_advertising": "Publicidad local",
+    "promotions": "Promociones",
+    "events": "Eventos",
+    "school_university": "Marketing escolar/universitario",
+    "word_of_mouth": "Boca a boca"
+  },
+  "feedback": {
+    "great_fit": {
+      "title": "¡Excelente combinación!",
+      "msg": "Tu producto funciona muy bien en esta ubicación (fit: {fit}). Seguí optimizando."
+    },
+    "poor_fit": {
+      "title": "Mala combinación producto-ubicación",
+      "msg": "Tu producto no encaja bien en este lugar (fit: {fit}). Explorá mover el local.",
+      "learn": "La compatibilidad entre producto y ubicación puede multiplicar o dividir tu demanda."
+    },
+    "stock_out": {
+      "title": "¡Te quedaste sin stock!",
+      "msg": "Perdiste {units} ventas potenciales (aprox. ${lost}). Producí más la próxima.",
+      "learn": "Quedarse sin stock pierde ventas inmediatas y reduce la satisfacción del cliente."
+    },
+    "overstock": {
+      "title": "Sobrestock",
+      "msg": "Te sobraron {units} unidades. Ajustá la producción a la demanda real."
+    },
+    "liquidity_crisis": {
+      "title": "⚠️ Crisis de liquidez",
+      "msg": "Tu capital bajó por debajo del 15% del inicio. Esto penalizará la próxima ronda.",
+      "learn": "Siempre reservá algo de liquidez para emergencias y oportunidades."
+    },
+    "no_marketing": {
+      "title": "Sin marketing",
+      "msg": "No invertiste en marketing. Tu demanda base se reduce significativamente.",
+      "learn": "El marketing no es gasto: es inversión en demanda futura."
+    },
+    "great_marketing": {
+      "title": "¡Marketing efectivo!",
+      "msg": "Tu campaña boosteó la demanda un {effect}% por encima de la base."
+    },
+    "quality_mismatch": {
+      "title": "Incoherencia de calidad",
+      "msg": "Usás materiales baratos con posicionamiento premium. Eso erosiona tu marca.",
+      "learn": "Los clientes premium esperan calidad. El mismatch destruye la confianza de marca."
+    },
+    "profitable": {
+      "title": "¡Ronda rentable!",
+      "msg": "Tu capital creció un {pct}% esta ronda. ¡Muy bien!"
+    },
+    "loss": {
+      "title": "Ronda con pérdida",
+      "msg": "Perdiste ${loss} esta ronda. Analizá los costos y ajustá la estrategia.",
+      "learn": "Las pérdidas ocasionales son normales. Lo importante es aprender qué las causó."
+    },
+    "understaffed": {
+      "title": "Pocos empleados",
+      "msg": "La eficiencia operativa fue baja por falta de personal. Considerá contratar más."
+    }
+  },
+  "events": {
+    "viral_trend_bikes": {
+      "name": "Tendencia viral — movilidad",
+      "desc": "Un video viral disparó el interés en bicicletas y scooters eléctricos."
+    },
+    "school_season": {
+      "name": "Temporada escolar",
+      "desc": "Inicio del ciclo lectivo. Mochilas y botellas en alta demanda."
+    },
+    "sports_event": {
+      "name": "Evento deportivo local",
+      "desc": "Un campeonato regional llenó las zonas deportivas y turísticas."
+    },
+    "new_competitor": {
+      "name": "Nuevo competidor",
+      "desc": "Una empresa nueva entró al mercado en las principales zonas."
+    },
+    "material_cost_spike": {
+      "name": "Aumento de costos de materiales",
+      "desc": "Los precios de producción subieron un 28% esta ronda."
+    },
+    "good_reviews": {
+      "name": "Reseñas positivas virales",
+      "desc": "Un influencer habló bien de tu tipo de producto. Demanda en alza."
+    },
+    "bad_reviews": {
+      "name": "Reseñas negativas",
+      "desc": "Quejas en redes sobre productos similares. La demanda bajó."
+    },
+    "eco_trend": {
+      "name": "Boom de sustentabilidad",
+      "desc": "El movimiento eco-friendly disparó la demanda de productos de movilidad."
+    },
+    "economic_upswing": {
+      "name": "Reactivación económica",
+      "desc": "La economía ficticia creció. Los consumidores tienen más para gastar."
+    },
+    "mild_recession": {
+      "name": "Recesión leve",
+      "desc": "El consumo cayó. Los productos premium fueron los más afectados."
+    },
+    "viral_social_media": {
+      "name": "Viral en redes sociales",
+      "desc": "Patinetas y auriculares se hicieron virales entre jóvenes."
+    },
+    "supply_disruption": {
+      "name": "Problema de proveedor",
+      "desc": "Disrupciones en la cadena de suministro. Los costos subieron un 35%."
+    },
+    "local_festival": {
+      "name": "Festival local",
+      "desc": "Un festival masivo llenó la zona turística y comercial."
+    },
+    "tax_break": {
+      "name": "Reducción de impuestos",
+      "desc": "El gobierno ficticio redujo cargas impositivas. Los costos bajan un 12%."
+    },
+    "energy_crisis": {
+      "name": "Crisis energética",
+      "desc": "Los cortes de luz afectaron la operación de varios locales."
+    },
+    "influencer_collab": {
+      "name": "Colaboración con influencer",
+      "desc": "Un mega-influencer habló bien de productos como el tuyo."
+    },
+    "tech_regulation": {
+      "name": "Nueva regulación tech",
+      "desc": "El gobierno ficticio reguló monopatines y cripto. Más costos."
+    },
+    "crypto_boom": {
+      "name": "Boom cripto",
+      "desc": "Los activos digitales se dispararon. Los inversores de cripto y startups ganaron mucho."
+    },
+    "partnership_opportunity": {
+      "name": "Oportunidad de alianza",
+      "desc": "Una empresa quiere distribuir tu producto. Necesitás liquidez para aprovecharla."
+    },
+    "inflation_spike": {
+      "name": "Pico de inflación",
+      "desc": "La inflación ficticia aumentó costos y redujo el poder de compra."
+    }
+  },
+  "research": {
+    "demand_forecast": "Se estima una demanda de {low} a {high} unidades para tu producto esta ronda.",
+    "high_competition": "La competencia en {location} es alta ({pct}%). Diferenciarte es clave.",
+    "low_competition": "Competencia baja en {location} ({pct}%). Buena oportunidad.",
+    "price_sensitive": "Tu segmento es muy sensible al precio. Bajar el precio puede aumentar significativamente la demanda.",
+    "price_tolerant": "Tu segmento no es muy sensible al precio. Podés cobrar más sin perder mucha demanda.",
+    "early_game_tip": "En las primeras rondas, construir marca es más importante que maximizar ganancias.",
+    "mid_game_tip": "A mitad de juego, el balance entre crecimiento y eficiencia es clave.",
+    "late_game_tip": "En las últimas rondas, consolidar lo ganado es tan importante como seguir creciendo.",
+    "event_hint": "Los analistas detectan señales de un posible evento de tipo '{eventType}' para la próxima ronda.",
+    "no_clear_event": "No hay señales claras de eventos excepcionales para la próxima ronda."
+  },
+  "admin": {
+    "title": "Panel de administración",
+    "students": "Estudiantes",
+    "games": "Juegos",
+    "reports": "Reportes",
+    "create_game": "Crear juego",
+    "game_name": "Nombre del juego",
+    "close_time": "Hora de cierre",
+    "game_code": "Código de acceso",
+    "participants": "Participantes",
+    "active_rounds": "Rondas activas",
+    "filter_school": "Filtrar por colegio",
+    "filter_grade": "Filtrar por grado",
+    "filter_subject": "Filtrar por materia",
+    "export_csv": "Exportar CSV",
+    "export_pdf": "Exportar PDF",
+    "student_detail": "Detalle del estudiante",
+    "auto_report": "Reporte automático",
+    "risk_profile": "Perfil de riesgo",
+    "strategy_profile": "Perfil estratégico",
+    "run_simulation": "Ejecutar simulación"
+  },
+  "errors": {
+    "generic": "Ocurrió un error. Intentá de nuevo.",
+    "auth_failed": "Error de autenticación.",
+    "game_not_found": "Juego no encontrado.",
+    "invalid_code": "Código de juego inválido.",
+    "budget_exceeded": "No podés asignar más de tu capital disponible.",
+    "round_locked": "Esta ronda ya cerró. Esperá los resultados.",
+    "company_exists": "Ya tenés una empresa en este juego."
+  }
+}
