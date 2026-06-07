@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { collection, getDocs, query, orderBy, addDoc, updateDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, addDoc, updateDoc, doc, deleteDoc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 import { db } from '@/lib/firebase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { formatCurrency, formatPercent, generateJoinCode } from '@/lib/utils';
@@ -27,9 +28,10 @@ export default function AdminPage({ params }: { params: { locale: string } }) {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedStudent, setSelectedStudent] = useState<{ user: User; company: Company; rounds: Round[] } | null>(null);
   const [showNewGame, setShowNewGame] = useState(false);
-  const [newGame, setNewGame] = useState({ name: '', closeTime: DEFAULT_CLOSE_TIME });
+  const [newGame, setNewGame] = useState({ name: '', closeTime: DEFAULT_CLOSE_TIME, simulationMode: 'manual' as 'automatic' | 'manual' });
   const [filters, setFilters] = useState({ school: '', grade: '', subject: '' });
   const [dataLoading, setDataLoading] = useState(true);
+  const [simulating, setSimulating] = useState<string | null>(null);
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
@@ -59,15 +61,13 @@ export default function AdminPage({ params }: { params: { locale: string } }) {
   async function createGame() {
     const code = generateJoinCode();
     const now = new Date();
-    const closeAt = new Date(now);
-    const [h, m] = newGame.closeTime.split(':').map(Number);
-    closeAt.setHours(h, m, 0, 0);
 
     await addDoc(collection(db, 'games'), {
       name: newGame.name,
       joinCode: code,
       adminUid: user!.uid,
-      status: 'setup',
+      status: 'active',
+      simulationMode: newGame.simulationMode,
       currentRound: 1,
       totalRounds: 10,
       initialCapital: INITIAL_CAPITAL,
@@ -78,7 +78,7 @@ export default function AdminPage({ params }: { params: { locale: string } }) {
       createdAt: now,
     });
     setShowNewGame(false);
-    setNewGame({ name: '', closeTime: DEFAULT_CLOSE_TIME });
+    setNewGame({ name: '', closeTime: DEFAULT_CLOSE_TIME, simulationMode: 'manual' });
     await loadAll();
   }
 
@@ -90,6 +90,45 @@ export default function AdminPage({ params }: { params: { locale: string } }) {
   async function pauseGame(gameId: string, current: string) {
     await updateDoc(doc(db, 'games', gameId), { status: current === 'active' ? 'paused' : 'active' });
     await loadAll();
+  }
+
+  async function toggleSimMode(gameId: string, current: string) {
+    const next = current === 'automatic' ? 'manual' : 'automatic';
+    await updateDoc(doc(db, 'games', gameId), { simulationMode: next });
+    await loadAll();
+  }
+
+  async function deleteGame(gameId: string) {
+    if (!confirm('¿Dar de baja este grupo? Esta acción no se puede deshacer.')) return;
+    await deleteDoc(doc(db, 'games', gameId));
+    await loadAll();
+  }
+
+  async function simulateGame(gameId: string) {
+    const token = await getAuth().currentUser?.getIdToken();
+    if (!token) return;
+    setSimulating(gameId);
+    try {
+      const res = await fetch('/api/simulate-now', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ gameId }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert(`✅ Simulación completada: ${data.message}`);
+        await loadAll();
+      } else {
+        alert(`Error: ${data.error}`);
+      }
+    } catch (err) {
+      alert(`Error de red: ${String(err)}`);
+    } finally {
+      setSimulating(null);
+    }
   }
 
   async function loadStudentDetail(u: User) {
@@ -304,41 +343,87 @@ export default function AdminPage({ params }: { params: { locale: string } }) {
           <Button variant="gradient" onClick={() => setShowNewGame(true)}>+ Crear juego</Button>
 
           {showNewGame && (
-            <div className="glass-card rounded-2xl p-5">
-              <h3 className="font-bold text-white mb-4">Nuevo juego</h3>
+            <div className="glass-card rounded-2xl p-5 border border-violet-500/20">
+              <h3 className="font-bold text-white mb-4">➕ Nuevo grupo / juego</h3>
               <div className="flex flex-col gap-3">
-                <Input label="Nombre del juego" value={newGame.name} onChange={e => setNewGame(p => ({ ...p, name: e.target.value }))} placeholder="5to año A — Economía 2026" />
-                <Input label="Hora de cierre de decisiones" type="time" value={newGame.closeTime} onChange={e => setNewGame(p => ({ ...p, closeTime: e.target.value }))} />
-                <div className="flex gap-2 mt-2">
+                <Input label="Nombre del grupo" value={newGame.name} onChange={e => setNewGame(p => ({ ...p, name: e.target.value }))} placeholder="5to A — Economía 2026" />
+                <Input label="Hora de cierre de decisiones (hh:mm)" type="time" value={newGame.closeTime} onChange={e => setNewGame(p => ({ ...p, closeTime: e.target.value }))} />
+                <div>
+                  <p className="text-sm text-white/60 mb-2">Modo de simulación</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { value: 'manual', emoji: '🎯', label: 'Manual', hint: 'Corrés la simulación cuando quieras' },
+                      { value: 'automatic', emoji: '⏰', label: 'Automático', hint: 'Corre sola todos los días a las 19:00' },
+                    ].map(opt => (
+                      <button key={opt.value}
+                        onClick={() => setNewGame(p => ({ ...p, simulationMode: opt.value as 'automatic' | 'manual' }))}
+                        className={`p-3 rounded-xl border-2 text-left transition-all ${newGame.simulationMode === opt.value ? 'border-violet-500 bg-violet-500/15' : 'border-white/10 bg-white/5'}`}>
+                        <div className="text-lg mb-1">{opt.emoji}</div>
+                        <div className="text-xs font-bold text-white">{opt.label}</div>
+                        <div className="text-[10px] text-white/40">{opt.hint}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex gap-2 mt-1">
                   <Button variant="secondary" className="flex-1" onClick={() => setShowNewGame(false)}>Cancelar</Button>
-                  <Button variant="gradient" className="flex-1" onClick={createGame} disabled={!newGame.name}>Crear</Button>
+                  <Button variant="gradient" className="flex-1" onClick={createGame} disabled={!newGame.name}>🚀 Crear</Button>
                 </div>
               </div>
             </div>
           )}
 
-          {games.map(game => (
+          {games.length === 0 && !showNewGame && (
+            <div className="glass-card rounded-2xl p-8 text-center">
+              <div className="text-4xl mb-3">🎮</div>
+              <p className="text-white/50">No hay grupos todavía. Los estudiantes también pueden crear sus propios grupos.</p>
+            </div>
+          )}
+
+          {games.map(game => {
+            const simMode = (game as { simulationMode?: string }).simulationMode ?? 'automatic';
+            const isSimulating = simulating === game.id;
+            return (
             <div key={game.id} className="glass-card rounded-2xl p-5">
               <div className="flex items-start justify-between mb-3">
-                <div>
-                  <h3 className="font-bold text-white">{game.name}</h3>
-                  <p className="text-xs text-white/40 mt-0.5">
-                    Código: <span className="font-mono text-violet-400 font-bold tracking-widest">{game.joinCode}</span>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h3 className="font-bold text-white">{game.name}</h3>
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${
+                      simMode === 'manual' ? 'bg-violet-500/20 text-violet-300' : 'bg-blue-500/20 text-blue-300'
+                    }`}>
+                      {simMode === 'manual' ? '🎯 Manual' : '⏰ Auto'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-white/40 mt-1">
+                    Código: <span className="font-mono text-violet-400 font-bold tracking-widest text-sm">{game.joinCode}</span>
                   </p>
                 </div>
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                <span className={`ml-2 flex-shrink-0 px-2 py-1 rounded-full text-xs font-medium ${
                   game.status === 'active' ? 'bg-emerald-500/20 text-emerald-300' :
                   game.status === 'completed' ? 'bg-white/10 text-white/50' :
                   game.status === 'paused' ? 'bg-amber-500/20 text-amber-300' :
                   'bg-blue-500/20 text-blue-300'
                 }`}>{game.status}</span>
               </div>
-              <div className="flex gap-4 text-xs text-white/40 mb-3">
+
+              <div className="flex gap-4 text-xs text-white/40 mb-4">
                 <span>Ronda {game.currentRound}/{game.totalRounds}</span>
                 <span>Cierre: {game.decisionCloseTime}</span>
-                <span>{game.participantCount} participantes</span>
+                <span>{game.participantCount ?? 0} participantes</span>
               </div>
-              <div className="flex gap-2">
+
+              {/* Round progress */}
+              <div className="flex gap-1 mb-4">
+                {Array.from({ length: game.totalRounds }, (_, i) => (
+                  <div key={i} className={`flex-1 h-1.5 rounded-full transition-all ${
+                    i < game.currentRound - 1 ? 'bg-violet-500' :
+                    i === game.currentRound - 1 ? 'bg-violet-400 animate-pulse' : 'bg-white/10'
+                  }`} />
+                ))}
+              </div>
+
+              <div className="flex gap-2 flex-wrap">
                 {game.status === 'setup' && (
                   <Button variant="success" size="sm" onClick={() => startGame(game.id)}>▶ Iniciar</Button>
                 )}
@@ -347,9 +432,31 @@ export default function AdminPage({ params }: { params: { locale: string } }) {
                     {game.status === 'active' ? '⏸ Pausar' : '▶ Reanudar'}
                   </Button>
                 )}
+                {game.status === 'active' && (
+                  <Button
+                    variant={simMode === 'manual' ? 'gradient' : 'secondary'}
+                    size="sm"
+                    loading={isSimulating}
+                    onClick={() => simulateGame(game.id)}
+                  >
+                    {isSimulating ? 'Simulando...' : '⚡ Simular ahora'}
+                  </Button>
+                )}
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => toggleSimMode(game.id, simMode)}
+                  title={`Cambiar a modo ${simMode === 'manual' ? 'automático' : 'manual'}`}
+                >
+                  {simMode === 'manual' ? '⏰' : '🎯'}
+                </Button>
+                <Button variant="secondary" size="sm" onClick={() => deleteGame(game.id)} className="ml-auto text-red-400 hover:text-red-300">
+                  🗑️
+                </Button>
               </div>
             </div>
-          ))}
+          );
+          })}
         </div>
       )}
 

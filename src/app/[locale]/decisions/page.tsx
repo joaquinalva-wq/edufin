@@ -19,7 +19,39 @@ import { Slider, Stepper } from '@/components/ui/slider';
 import { OptionPicker, MultiPicker, SectionCard } from '@/components/game/OptionPicker';
 import { Button } from '@/components/ui/button';
 import { StudentShell } from '@/components/shared/StudentShell';
-import type { Company, Round, InvestmentAllocation } from '@/types';
+import type { Company, Round, InvestmentAllocation, InvestmentId } from '@/types';
+
+// Education content per investment type
+const INVESTMENT_EDUCATION: Record<InvestmentId, { analogy: string; whenToUse: string }> = {
+  savings: {
+    analogy: 'Como una caja de ahorro bancaria. El dinero está completamente seguro y genera un pequeño interés fijo.',
+    whenToUse: 'Cuando querés conservar capital sin ningún riesgo. Ideal para la liquidez que no necesitás esta ronda.',
+  },
+  bond: {
+    analogy: 'Le prestás dinero al Estado o a una empresa grande. Te devuelven el capital con intereses. Muy predecible.',
+    whenToUse: 'Cuando querés un retorno estable sin sorpresas. Mejor que el ahorro, con riesgo casi nulo.',
+  },
+  conservative_fund: {
+    analogy: 'Un fondo que mezcla bonos y acciones seguras, manejado por expertos. Diversificado y estable.',
+    whenToUse: 'Si querés crecer un poco más que el ahorro pero sin asumir riesgos grandes.',
+  },
+  balanced_fund: {
+    analogy: 'Mitad bonos seguros, mitad acciones de empresas sólidas. Puede subir o bajar, pero moderadamente.',
+    whenToUse: 'Buena opción si tenés capital excedente y podés tolerar variaciones de ±18%.',
+  },
+  stocks: {
+    analogy: 'Comprás acciones de empresas en la bolsa. Pueden subir mucho o bajar mucho según el mercado.',
+    whenToUse: 'Para capital que no necesitás este mes. Alto potencial, pero podés perder casi la mitad.',
+  },
+  crypto: {
+    analogy: 'Activos digitales como Bitcoin o Ethereum. Extremadamente volátiles: pueden triplicar su valor o caer 65%.',
+    whenToUse: 'Solo si podés asumir pérdidas importantes. Nunca pongas aquí lo que necesitás para operar.',
+  },
+  startup: {
+    analogy: 'Invertís en una empresa nueva con alto potencial. Puede valer mucho... o quebrar y perderlo casi todo.',
+    whenToUse: 'Capital de riesgo: solo cuando tenés mucha liquidez y podés perder hasta el 85% sin afectar operaciones.',
+  },
+};
 
 export default function DecisionsPage({ params }: { params: { locale: string } }) {
   const { user, loading } = useAuth();
@@ -383,41 +415,213 @@ export default function DecisionsPage({ params }: { params: { locale: string } }
 
           {/* 7. Inversiones financieras */}
           <SectionCard title="Inversiones financieras" emoji="📈" defaultOpen={false}>
-            <p className="text-xs text-white/50">El dinero que no usás en el negocio puede invertirse. Mayor riesgo = mayor retorno potencial.</p>
+            <p className="text-xs text-white/50">El dinero que no usás en el negocio puede invertirse. Mayor riesgo = mayor retorno potencial, pero también mayor pérdida posible.</p>
+
+            {/* Risk-return spectrum */}
+            <div className="bg-white/5 rounded-xl p-3 mb-1">
+              <p className="text-[10px] text-white/40 mb-2">Espectro riesgo–retorno</p>
+              <div className="flex items-center gap-1">
+                {INVESTMENT_LIST.map((inv, i) => {
+                  const riskPct = { very_low: 5, low: 20, medium: 45, high: 70, very_high: 95 }[inv.riskLevel] ?? 50;
+                  const isSelected = (d.investments ?? []).some(x => x.investmentId === inv.id && x.amount > 0);
+                  return (
+                    <div key={inv.id} className="flex-1 text-center" title={inv.id.replace(/_/g, ' ')}>
+                      <div className="text-base mb-1">{inv.emoji}</div>
+                      <div className="h-1.5 rounded-full mx-0.5" style={{
+                        background: `hsl(${120 - riskPct * 1.2}, 80%, 50%)`,
+                        opacity: isSelected ? 1 : 0.35,
+                        boxShadow: isSelected ? `0 0 6px hsl(${120 - riskPct * 1.2}, 80%, 50%)` : 'none',
+                      }} />
+                      <div className="text-[8px] text-white/30 mt-0.5">{(inv.expectedReturn * 100).toFixed(0)}%</div>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="flex justify-between text-[9px] text-white/20 mt-1">
+                <span>← Seguro / bajo retorno</span>
+                <span>Alto riesgo / alto retorno →</span>
+              </div>
+            </div>
+
             <div className="flex flex-col gap-3">
               {INVESTMENT_LIST.map(inv => {
                 const current = (d.investments ?? []).find(i => i.investmentId === inv.id);
                 const val = current?.amount ?? 0;
+                const edu = INVESTMENT_EDUCATION[inv.id as InvestmentId];
                 const riskColors: Record<string, string> = {
                   very_low: 'text-gray-400', low: 'text-emerald-400',
                   medium: 'text-amber-400', high: 'text-orange-400', very_high: 'text-red-400',
                 };
+                const riskBg: Record<string, string> = {
+                  very_low: 'bg-gray-500/10', low: 'bg-emerald-500/10',
+                  medium: 'bg-amber-500/10', high: 'bg-orange-500/10', very_high: 'bg-red-500/10',
+                };
+                const sampleAmount = val > 0 ? val : 10000;
+                const worstCase = Math.round(sampleAmount * (1 + inv.maxLoss));
+                const expectedCase = Math.round(sampleAmount * (1 + inv.expectedReturn));
+                const bestCase = Math.round(sampleAmount * (1 + inv.maxGain));
                 return (
-                  <div key={inv.id} className="bg-white/5 rounded-xl p-3">
+                  <div key={inv.id} className={`rounded-xl p-3 border border-white/5 ${val > 0 ? riskBg[inv.riskLevel] : 'bg-white/5'}`}>
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-xl">{inv.emoji}</span>
                       <div className="flex-1">
-                        <div className="text-sm font-semibold text-white">{inv.id.replace(/_/g, ' ')}</div>
-                        <div className="flex gap-2 text-[10px]">
-                          <span className={riskColors[inv.riskLevel]}>Riesgo: {inv.riskLevel.replace('_', ' ')}</span>
-                          <span className="text-emerald-400">Retorno esp: {(inv.expectedReturn * 100).toFixed(1)}%/ronda</span>
+                        <div className="text-sm font-semibold text-white capitalize">{inv.id.replace(/_/g, ' ')}</div>
+                        <div className="flex gap-3 text-[10px]">
+                          <span className={riskColors[inv.riskLevel]}>⬤ Riesgo {inv.riskLevel.replace('_', ' ')}</span>
+                          <span className="text-emerald-400">+{(inv.expectedReturn * 100).toFixed(1)}% esperado</span>
                         </div>
                       </div>
                     </div>
                     <Slider
-                      label={`Invertir en ${inv.id.replace(/_/g, ' ')}`}
+                      label={`Monto a invertir`}
                       value={val}
                       min={0}
                       max={Math.min(50000, company?.currentCapital ?? 50000)}
                       step={1000}
                       onChange={amount => setInvestment(inv.id, amount)}
-                      hint={val > 0 ? `Retorno esperado: +${formatCurrency(val * inv.expectedReturn, true)} (puede variar mucho)` : undefined}
+                      hint={val > 0 ? `Esperado: +${formatCurrency(val * inv.expectedReturn, true)} · Rango: ${formatCurrency(val * inv.maxLoss, true)} a +${formatCurrency(val * inv.maxGain, true)}` : undefined}
                     />
+                    {/* Educational expandable */}
+                    <details className="mt-2">
+                      <summary className="text-[10px] text-white/30 cursor-pointer hover:text-white/60">
+                        ¿Cómo funciona este instrumento? →
+                      </summary>
+                      <div className="mt-2 space-y-2">
+                        <p className="text-[11px] text-white/50 leading-relaxed">{edu.analogy}</p>
+                        <div className="grid grid-cols-3 gap-1 text-center">
+                          <div className="bg-red-500/10 rounded-lg p-1.5">
+                            <div className="text-[10px] text-red-400 font-bold">{formatCurrency(worstCase, true)}</div>
+                            <div className="text-[9px] text-white/30">Peor caso</div>
+                          </div>
+                          <div className="bg-amber-500/10 rounded-lg p-1.5">
+                            <div className="text-[10px] text-amber-400 font-bold">{formatCurrency(expectedCase, true)}</div>
+                            <div className="text-[9px] text-white/30">Esperado</div>
+                          </div>
+                          <div className="bg-emerald-500/10 rounded-lg p-1.5">
+                            <div className="text-[10px] text-emerald-400 font-bold">{formatCurrency(bestCase, true)}</div>
+                            <div className="text-[9px] text-white/30">Mejor caso</div>
+                          </div>
+                        </div>
+                        <p className="text-[10px] text-white/30 italic">💡 {edu.whenToUse}</p>
+                        <p className="text-[9px] text-white/20">Basado en {val > 0 ? formatCurrency(val, true) : '$10.000'} invertidos.</p>
+                      </div>
+                    </details>
                   </div>
                 );
               })}
             </div>
           </SectionCard>
+
+          {/* 8. Preview financiero en vivo */}
+          {(() => {
+            if (!product) return null;
+            const matMult = MATERIAL_COST_MULTIPLIERS[d.materialQuality ?? 'medium'] ?? 1;
+            const supMult = SUPPLIER_COST_MULTIPLIERS[d.supplierId ?? 'standard'] ?? 1;
+            const variableCostPerUnit = product.unitCost * matMult * supMult;
+            const price = d.price ?? product.minPrice;
+            const marginPerUnit = price - variableCostPerUnit;
+
+            // Fixed costs (everything that doesn't depend on units sold)
+            const empBase = (d.employeeCount ?? 1) * (EMPLOYEE_DAILY_COST[d.employeeType ?? 'balanced'] ?? 3200);
+            const fixedCosts = rent
+              + empBase + (d.trainingBudget ?? 0) + (d.motivationBonus ?? 0)
+              + (d.marketingBudget ?? 0) + (d.localImprovementBudget ?? 0) + (d.marketResearchBudget ?? 0);
+
+            const breakEvenUnits = marginPerUnit > 0 ? Math.ceil(fixedCosts / marginPerUnit) : Infinity;
+            const units = d.unitsProduced ?? 0;
+            const totalOperatingCosts = costs.production + costs.employees + costs.ops + rent;
+            const liquidityAfter = (company?.currentCapital ?? 0) - totalOperatingCosts - costs.investments;
+            const liquidityPct = company?.currentCapital ? (liquidityAfter / company.currentCapital) * 100 : 100;
+
+            const scenarios = [
+              { label: 'Pesimista', emoji: '😰', pct: 50 },
+              { label: 'Base',      emoji: '😐', pct: 75 },
+              { label: 'Optimista', emoji: '🚀', pct: 100 },
+            ].map(s => {
+              const unitsSold = Math.round(units * s.pct / 100);
+              const revenue = unitsSold * price;
+              const net = revenue - totalOperatingCosts;
+              return { ...s, unitsSold, revenue, net };
+            });
+
+            return (
+              <div className="glass-card rounded-2xl p-4 border border-violet-500/20">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-bold text-white flex items-center gap-2">
+                    <span>🔮</span> Preview financiero
+                  </h3>
+                  <span className="text-[10px] text-white/25 bg-white/5 px-2 py-0.5 rounded-full">Estimación antes de confirmar</span>
+                </div>
+
+                {/* Break-even */}
+                {marginPerUnit <= 0 ? (
+                  <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-3 mb-3">
+                    <p className="text-sm font-bold text-red-400">⚠️ El precio no cubre el costo de producción</p>
+                    <p className="text-xs text-white/50 mt-1">
+                      Costo variable por unidad: {formatCurrency(variableCostPerUnit, true)} · Precio: {formatCurrency(price, true)}
+                    </p>
+                    <p className="text-xs text-red-300 mt-1">Cada unidad vendida genera pérdida. Subí el precio o usá materiales más baratos.</p>
+                  </div>
+                ) : (
+                  <div className={`rounded-xl p-3 mb-3 ${units >= breakEvenUnits ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-amber-500/10 border border-amber-500/20'}`}>
+                    <div className="flex justify-between items-center mb-1">
+                      <div>
+                        <p className="text-xs text-white/60">Punto de equilibrio</p>
+                        <p className="text-sm font-bold text-white">
+                          {isFinite(breakEvenUnits) ? `${breakEvenUnits} unidades para cubrir costos` : '—'}
+                        </p>
+                      </div>
+                      {isFinite(breakEvenUnits) && (
+                        <span className={`text-xl font-black ${units >= breakEvenUnits ? 'text-emerald-400' : 'text-amber-400'}`}>
+                          {units}/{breakEvenUnits}
+                        </span>
+                      )}
+                    </div>
+                    {isFinite(breakEvenUnits) && (
+                      <>
+                        <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                          <div className={`h-full rounded-full ${units >= breakEvenUnits ? 'bg-emerald-500' : 'bg-amber-500'}`}
+                            style={{ width: `${Math.min(100, (units / breakEvenUnits) * 100)}%` }} />
+                        </div>
+                        <p className="text-[10px] text-white/35 mt-1.5">
+                          Margen por unidad: {formatCurrency(marginPerUnit, true)} · Costos fijos: {formatCurrency(fixedCosts, true)}
+                        </p>
+                      </>
+                    )}
+                  </div>
+                )}
+
+                {/* Revenue scenarios */}
+                {units > 0 && (
+                  <div className="mb-3">
+                    <p className="text-xs text-white/40 mb-2">Resultado neto según % de stock vendido</p>
+                    <div className="grid grid-cols-3 gap-2 text-center">
+                      {scenarios.map(s => (
+                        <div key={s.label} className={`rounded-xl p-2 ${s.net >= 0 ? 'bg-emerald-500/10' : 'bg-red-500/10'}`}>
+                          <div className="text-sm mb-0.5">{s.emoji}</div>
+                          <div className={`text-xs font-bold ${s.net >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                            {s.net >= 0 ? '+' : ''}{formatCurrency(s.net, true)}
+                          </div>
+                          <div className="text-[9px] text-white/35">{s.label} ({s.pct}%)</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Liquidity indicator */}
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-white/40">Liquidez después de costos:</span>
+                  <span className={`text-sm font-bold ${liquidityPct < 15 ? 'text-red-400' : liquidityPct < 30 ? 'text-amber-400' : 'text-emerald-400'}`}>
+                    {formatCurrency(liquidityAfter, true)} ({liquidityPct.toFixed(0)}%)
+                  </span>
+                </div>
+                {liquidityPct < 15 && (
+                  <p className="text-[10px] text-red-400 mt-1">⚠️ Zona de crisis de liquidez (&lt;15%). Reservá más capital.</p>
+                )}
+              </div>
+            );
+          })()}
 
           {/* Submit */}
           <div className="glass-card rounded-2xl p-4 mt-2">

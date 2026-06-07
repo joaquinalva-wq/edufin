@@ -2,6 +2,12 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/lib/i18n/routing';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'EduFin — Simulador Empresarial',
+  description: 'Simulación educativa de negocios y finanzas para estudiantes',
+};
 
 export default async function LocaleLayout({
   children,
@@ -19,12 +25,8 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
-      <body>
-        <NextIntlClientProvider messages={messages}>
-          {children}
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider messages={messages}>
+      {children}
+    </NextIntlClientProvider>
   );
 }

@@ -127,9 +127,31 @@ function generateFeedback(
   decision: Decision,
   result: Omit<RoundResult, 'feedbackPoints' | 'rankInGame' | 'totalParticipants'>,
   product: Product,
-  _location: Location,
+  location: Location,
 ): FeedbackPoint[] {
   const points: FeedbackPoint[] = [];
+
+  // Root-cause context: break-even analysis
+  const matMult = MATERIAL_COST_MULTIPLIERS[decision.materialQuality] ?? 1;
+  const supMult = SUPPLIER_COST_MULTIPLIERS[decision.supplierId] ?? 1;
+  const variableCostPerUnit = product.unitCost * matMult * supMult;
+  const marginPerUnit = decision.price - variableCostPerUnit;
+  const fixedCosts = location.rentPerRound
+    + decision.employeeCount * (EMPLOYEE_DAILY_COST[decision.employeeType] ?? 3200)
+    + decision.trainingBudget + decision.motivationBonus
+    + decision.marketingBudget + decision.localImprovementBudget + decision.marketResearchBudget;
+  const breakEvenUnits = marginPerUnit > 0 ? Math.ceil(fixedCosts / marginPerUnit) : Infinity;
+
+  // Price below variable cost — structural loss per unit sold
+  if (marginPerUnit < 0) {
+    points.push({
+      type: 'error',
+      titleKey: 'feedback.price_below_cost.title',
+      messageKey: 'feedback.price_below_cost.msg',
+      learnMoreKey: 'feedback.price_below_cost.learn',
+      params: { price: decision.price, varCost: Math.round(variableCostPerUnit) },
+    });
+  }
 
   // PLF feedback
   if (result.productLocationFit >= 1.3) {
@@ -138,15 +160,43 @@ function generateFeedback(
     points.push({ type: 'error', titleKey: 'feedback.poor_fit.title', messageKey: 'feedback.poor_fit.msg', learnMoreKey: 'feedback.poor_fit.learn', params: { fit: result.productLocationFit.toFixed(2) } });
   }
 
-  // Stock shortfall
+  // Stock shortfall — with root-cause suggestion
   if (result.stockShortfall > 5) {
     const lost = result.stockShortfall * decision.price;
-    points.push({ type: 'warning', titleKey: 'feedback.stock_out.title', messageKey: 'feedback.stock_out.msg', learnMoreKey: 'feedback.stock_out.learn', params: { units: result.stockShortfall, lost: Math.round(lost) } });
+    const suggested = Math.ceil(result.potentialDemand * 1.1);
+    points.push({
+      type: 'warning',
+      titleKey: 'feedback.stock_out.title',
+      messageKey: 'feedback.stock_out.msg',
+      learnMoreKey: 'feedback.stock_out.learn',
+      params: {
+        units: result.stockShortfall,
+        lost: Math.round(lost),
+        produced: decision.unitsProduced,
+        demand: result.potentialDemand,
+        suggested,
+      },
+    });
   }
 
-  // Overstock
+  // Overstock — with suggested production range
   if (result.overstock > decision.unitsProduced * 0.4) {
-    points.push({ type: 'warning', titleKey: 'feedback.overstock.title', messageKey: 'feedback.overstock.msg', params: { units: result.overstock } });
+    const sold = decision.unitsProduced - result.overstock;
+    const suggestedMin = Math.max(1, Math.floor(result.potentialDemand * 0.85));
+    const suggestedMax = Math.ceil(result.potentialDemand * 1.15);
+    points.push({
+      type: 'warning',
+      titleKey: 'feedback.overstock.title',
+      messageKey: 'feedback.overstock.msg',
+      params: {
+        units: result.overstock,
+        produced: decision.unitsProduced,
+        sold,
+        demand: result.potentialDemand,
+        suggestedMin,
+        suggestedMax,
+      },
+    });
   }
 
   // Liquidity crisis
@@ -174,14 +224,42 @@ function generateFeedback(
     points.push({ type: 'success', titleKey: 'feedback.profitable.title', messageKey: 'feedback.profitable.msg', params: { pct: result.capitalChangePct.toFixed(1) } });
   }
 
-  // Loss
-  if (result.netProfit < 0) {
-    points.push({ type: 'warning', titleKey: 'feedback.loss.title', messageKey: 'feedback.loss.msg', learnMoreKey: 'feedback.loss.learn', params: { loss: Math.abs(Math.round(result.netProfit)) } });
+  // Loss — with root-cause breakdown
+  // When price < variable cost, price_below_cost card already explains the cause; skip duplicate.
+  if (result.netProfit < 0 && marginPerUnit > 0) {
+    const lossParams: Record<string, string | number> = {
+      loss: Math.abs(Math.round(result.netProfit)),
+      sold: result.unitsSold,
+      costs: Math.round(result.totalOperatingCosts),
+    };
+    if (isFinite(breakEvenUnits)) {
+      lossParams.breakEven = breakEvenUnits;
+    }
+    const causeKey = result.unitsSold < (isFinite(breakEvenUnits) ? breakEvenUnits : 0)
+      ? 'feedback.loss.msg_volume'
+      : 'feedback.loss.msg_costs';
+    points.push({
+      type: 'warning',
+      titleKey: 'feedback.loss.title',
+      messageKey: causeKey,
+      learnMoreKey: 'feedback.loss.learn',
+      params: lossParams,
+    });
   }
 
   // Low employee count for complexity
   if (decision.employeeCount < (PRODUCTS[product.id]?.minEmployees ?? 1) * 1.5 && result.operationalEfficiency < 0.6) {
     points.push({ type: 'warning', titleKey: 'feedback.understaffed.title', messageKey: 'feedback.understaffed.msg' });
+  }
+
+  // Break-even tip when profitable but close to edge
+  if (result.netProfit >= 0 && isFinite(breakEvenUnits) && result.unitsSold < breakEvenUnits * 1.2) {
+    points.push({
+      type: 'tip',
+      titleKey: 'feedback.close_breakeven.title',
+      messageKey: 'feedback.close_breakeven.msg',
+      params: { sold: result.unitsSold, breakEven: breakEvenUnits },
+    });
   }
 
   return points.slice(0, 5); // cap at 5 feedback cards

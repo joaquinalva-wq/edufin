@@ -25,11 +25,13 @@ service cloud.firestore {
     }
 
     // ── Games ────────────────────────────────────────────────────────────────
+    // Any authenticated user can create a game (students can host their own groups).
+    // Only the game's creator (adminUid) or a system admin can update/delete.
     match /games/{gameId} {
       allow read: if isSignedIn();
-      allow create: if isAdmin();
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
+      allow create: if isSignedIn() && request.resource.data.adminUid == request.auth.uid;
+      allow update: if isAdmin() || (isSignedIn() && resource.data.adminUid == request.auth.uid);
+      allow delete: if isAdmin() || (isSignedIn() && resource.data.adminUid == request.auth.uid);
 
       match /participants/{uid} {
         allow read: if isSignedIn();
@@ -46,10 +48,11 @@ service cloud.firestore {
     }
 
     // ── Rounds ───────────────────────────────────────────────────────────────
+    // Rounds are created server-side (cron / simulate-now API via Admin SDK — bypasses rules).
+    // Students can update their own open rounds (save decisions).
     match /rounds/{roundId} {
       allow read: if isSignedIn();
       allow create: if isAdmin();
-      // Students can update their own open rounds (to save decisions)
       allow update: if isSignedIn() && (
         (resource.data.uid == request.auth.uid && resource.data.status == 'open') ||
         isAdmin()

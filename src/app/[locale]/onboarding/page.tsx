@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
+import { useAuthStore } from '@/store/authStore';
 
 const STEPS = [
   { key: 'step1', icon: '🏢', color: 'from-violet-500 to-purple-600' },
@@ -15,6 +16,7 @@ const STEPS = [
 export default function OnboardingPage({ params }: { params: { locale: string } }) {
   const t = useTranslations('onboarding');
   const router = useRouter();
+  const user = useAuthStore(s => s.user);
   const [step, setStep] = useState(0);
   const [animating, setAnimating] = useState(false);
 
@@ -23,7 +25,12 @@ export default function OnboardingPage({ params }: { params: { locale: string } 
       setAnimating(true);
       setTimeout(() => { setStep(s => s + 1); setAnimating(false); }, 200);
     } else {
-      router.push(`/${params.locale}/company/create`);
+      // If already in a game, skip setup; otherwise choose/create/join
+      if (user?.activeGameId) {
+        router.push(`/${params.locale}/company/create`);
+      } else {
+        router.push(`/${params.locale}/game/setup`);
+      }
     }
   }
 
@@ -76,7 +83,13 @@ export default function OnboardingPage({ params }: { params: { locale: string } 
         {/* Skip */}
         {!isLast && (
           <button
-            onClick={() => router.push(`/${params.locale}/company/create`)}
+            onClick={() => {
+              if (user?.activeGameId) {
+                router.push(`/${params.locale}/company/create`);
+              } else {
+                router.push(`/${params.locale}/game/setup`);
+              }
+            }}
             className="block text-center text-sm text-white/30 hover:text-white/60 mt-4 w-full transition-colors"
           >
             Saltar tutorial

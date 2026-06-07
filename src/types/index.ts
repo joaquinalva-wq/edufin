@@ -128,13 +128,16 @@ export interface RoundScheduleEntry {
   simulatedAt?: Date;
 }
 
+export type SimulationMode = 'automatic' | 'manual';
+
 export interface Game {
   id: string;
   name: string;
   description?: string;
   joinCode: string;               // 6-char uppercase code
-  adminUid: string;
+  adminUid: string;               // creator (teacher or student host)
   status: GameStatus;
+  simulationMode: SimulationMode; // 'automatic' = daily cron, 'manual' = host triggers
   currentRound: number;           // 1-indexed
   totalRounds: number;            // 10
   initialCapital: number;         // 100000

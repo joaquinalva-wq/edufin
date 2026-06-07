@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { doc, setDoc, updateDoc, collection } from 'firebase/firestore';
@@ -27,6 +27,13 @@ export default function CreateCompanyPage({ params }: { params: { locale: string
   const { user } = useAuthStore();
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  // Guard: must belong to a game first
+  useEffect(() => {
+    if (user && !user.activeGameId) {
+      router.replace(`/${params.locale}/game/setup`);
+    }
+  }, [user, params.locale, router]);
 
   const [companyName, setCompanyName] = useState('');
   const [brandName, setBrandName] = useState('');
