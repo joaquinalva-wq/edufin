@@ -20,13 +20,17 @@ export default function OnboardingPage({ params }: { params: { locale: string } 
   const [step, setStep] = useState(0);
   const [animating, setAnimating] = useState(false);
 
+  const isAdmin = user?.role === 'admin';
+
   function goNext() {
     if (step < STEPS.length - 1) {
       setAnimating(true);
       setTimeout(() => { setStep(s => s + 1); setAnimating(false); }, 200);
     } else {
-      // If already in a game, skip setup; otherwise choose/create/join
-      if (user?.activeGameId) {
+      // Admin goes to admin panel, students go to join game
+      if (isAdmin) {
+        router.push(`/${params.locale}/admin`);
+      } else if (user?.activeGameId) {
         router.push(`/${params.locale}/company/create`);
       } else {
         router.push(`/${params.locale}/game/setup`);
@@ -84,7 +88,9 @@ export default function OnboardingPage({ params }: { params: { locale: string } 
         {!isLast && (
           <button
             onClick={() => {
-              if (user?.activeGameId) {
+              if (isAdmin) {
+                router.push(`/${params.locale}/admin`);
+              } else if (user?.activeGameId) {
                 router.push(`/${params.locale}/company/create`);
               } else {
                 router.push(`/${params.locale}/game/setup`);

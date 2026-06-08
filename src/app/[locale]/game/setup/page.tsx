@@ -23,6 +23,8 @@ export default function GameSetupPage({ params }: { params: { locale: string } }
   const router = useRouter();
   const locale = params.locale;
 
+  // Non-admins skip directly to join screen — only admin can create games
+  const isAdmin = user?.role === 'admin';
   const [screen, setScreen] = useState<Screen>('choose');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -44,6 +46,13 @@ export default function GameSetupPage({ params }: { params: { locale: string } }
       router.replace(`/${locale}/company/create`);
     }
   }, [user, loading, locale, router]);
+
+  // Non-admins go straight to join (skip choose screen)
+  useEffect(() => {
+    if (!loading && user && !isAdmin && screen === 'choose') {
+      setScreen('join');
+    }
+  }, [user, loading, isAdmin, screen]);
 
   async function handleCreate() {
     if (!user || !gameName.trim()) return;
@@ -138,23 +147,25 @@ export default function GameSetupPage({ params }: { params: { locale: string } }
             </div>
 
             <div className="flex flex-col gap-3">
-              <button
-                onClick={() => setScreen('create')}
-                className="glass-card rounded-2xl p-6 text-left border border-violet-500/30 hover:border-violet-500/60 hover:bg-violet-500/10 transition-all group"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform">
-                    🏗️
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-bold text-white text-lg">Crear un grupo</div>
-                    <div className="text-sm text-white/50 mt-0.5">
-                      Vos creás el grupo y compartís el código con tus compañeros
+              {isAdmin && (
+                <button
+                  onClick={() => setScreen('create')}
+                  className="glass-card rounded-2xl p-6 text-left border border-violet-500/30 hover:border-violet-500/60 hover:bg-violet-500/10 transition-all group"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform">
+                      🏗️
                     </div>
+                    <div className="flex-1">
+                      <div className="font-bold text-white text-lg">Crear un grupo</div>
+                      <div className="text-sm text-white/50 mt-0.5">
+                        Creás el grupo y compartís el código con tus estudiantes
+                      </div>
+                    </div>
+                    <span className="text-white/30 text-2xl group-hover:translate-x-1 transition-transform">→</span>
                   </div>
-                  <span className="text-white/30 text-2xl group-hover:translate-x-1 transition-transform">→</span>
-                </div>
-              </button>
+                </button>
+              )}
 
               <button
                 onClick={() => setScreen('join')}
@@ -264,9 +275,11 @@ export default function GameSetupPage({ params }: { params: { locale: string } }
         {/* ── JOIN ── */}
         {screen === 'join' && (
           <div className="animate-fade-in">
-            <button onClick={() => setScreen('choose')} className="text-violet-400 text-sm mb-6 hover:text-violet-300 flex items-center gap-1">
-              ← Volver
-            </button>
+            {isAdmin && (
+              <button onClick={() => setScreen('choose')} className="text-violet-400 text-sm mb-6 hover:text-violet-300 flex items-center gap-1">
+                ← Volver
+              </button>
+            )}
 
             <div className="text-center mb-6">
               <div className="text-5xl mb-3">🔑</div>
